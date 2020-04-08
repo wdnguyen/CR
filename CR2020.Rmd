@@ -1,0 +1,736 @@
+---
+title: "CR2020"
+author: "William Nguyen"
+date: "2/19/2020"
+output:
+  html_document: default
+editor_options:
+  chunk_output_type: console
+---
+## Introduction
+
+Hello world! This is my attempt at creating an R Markdown report on my findings from the Costa Rica REU (2018-2019) I've been meaning to work on. This is using both R and Python.
+
+## Watershed Map
+
+![](Images/HowlerMonkeyMap.jpg)
+
+```{r setup, include=FALSE}
+# setwd("C:/Users/wdngu/Dropbox/Nguyen_CostaRica")
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = getwd())
+# Sys.setenv(RETICULATE_PYTHON = "/Users/williamnguyen/Library/r-miniconda/envs/pycon_env/bin/python") 
+### super important, check python binary using py_config()
+
+# Sys.setenv(RETICULATE_PYTHON = "C:/Users/wdngu/anaconda3/envs/pycon") 
+
+## "C:\\Users\\wdngu\\anaconda3\\envs\\pycon1\\python.exe"
+
+library(reticulate)
+
+# use_condaenv(condaenv = "pycon")
+
+# Sys.setenv(RETICULATE_PYTHON = "C:/Users/wdngu/anaconda3/envs/pycon/bin/python.exe") 
+
+library(tidyverse)
+library(gridExtra)
+library(grid)
+library(ggthemes)
+library(reshape)
+library(dplyr)
+library(tidyr)
+library(readr)
+library(lubridate)
+library(reshape2)
+library(scales)
+library(patchwork) # subplotting
+library(ggrepel)
+library(ggpmisc)
+library(ggpubr)
+library(blockTools)
+library(ggstatsplot)
+library(lattice)
+library(viridis)
+```
+
+```{r echo=FALSE}
+# Functions from https://rpubs.com/Koundy/71792
+
+theme_Publication <- function(base_size=14, base_family="Helvetica") {
+      library(grid)
+      library(ggthemes)
+      (theme_foundation(base_size=base_size, base_family=base_family)
+       + theme(plot.title = element_text(face = "bold",
+                                         size = rel(1.2), hjust = 0.5),
+               text = element_text(),
+               panel.background = element_rect(colour = NA),
+               plot.background = element_rect(colour = NA),
+               panel.border = element_rect(colour = NA),
+               axis.title = element_text(face = "bold",size = rel(1)),
+               axis.title.y = element_text(angle=90,vjust =2),
+               axis.title.x = element_text(vjust = -0.2),
+               axis.text = element_text(), 
+               axis.line = element_line(colour="black"),
+               axis.ticks = element_line(),
+               panel.grid.major = element_blank(),
+#               panel.grid.major = element_line(colour="#f0f0f0"),
+               panel.grid.minor = element_blank(),
+               legend.key = element_rect(colour = NA),
+               legend.position = "bottom",
+               legend.direction = "horizontal",
+               legend.key.size= unit(0.2, "cm"),
+               legend.margin = unit(0, "cm"),
+               legend.title = element_text(face="italic"),
+               plot.margin=unit(c(10,5,5,5),"mm"),
+               strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
+               strip.text = element_text(face="bold")
+          ))
+      
+}
+
+scale_fill_Publication <- function(...){
+      library(scales)
+      discrete_scale("fill","Publication",manual_pal(values = c("#386cb0","#fdb462","#7fc97f","#ef3b2c","#662506","#a6cee3","#fb9a99","#984ea3","#ffff33")), ...)
+
+}
+
+scale_colour_Publication <- function(...){
+      library(scales)
+      discrete_scale("colour","Publication",manual_pal(values = c("#386cb0","#fdb462","#7fc97f","#ef3b2c","#662506","#a6cee3","#fb9a99","#984ea3","#ffff33")), ...)
+
+}
+```
+
+
+```{r echo=FALSE}
+# use_condaenv(condaenv = "pycon_env", required=TRUE)
+sp <- import("scipy")
+np <- import("numpy")
+plt <- import("matplotlib.pyplot")
+sns <- import("seaborn")
+pd <- import("pandas")
+```
+
+```{python echo=FALSE}
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import gridspec
+import scipy as sp
+from scipy import fftpack
+from scipy import integrate 
+import pandas as pd
+import glob
+import os
+import seaborn as sns
+```
+
+# Hydrological time series
+
+```{r Reading data from CSV files, echo=FALSE, eval=FALSE}
+isotopes <- read.csv("knappett_isotopes.csv")
+rain <- read.csv("DownstreamMiller.csv")
+
+isotopes$Date_Time <- strptime(isotopes$Date_Time, format = "%m/%d/%y %H:%M")
+rain$Date <- strptime(rain$Date, format ="%m/%d/%y %H:%M")
+```
+
+### Hydrograph, Hyetograph, Stable Water Isotope Time Series
+
+```{r Hydrograph and Hyetograph, echo=FALSE}
+knappett_isotopes <- read.csv("knappett_isotopes.csv")
+knappett_rain <- read.csv("DownstreamMiller.csv")
+
+knappett_dates <- strptime(knappett_isotopes$Date_Time, format = "%m/%d/%y %H:%M")
+knappett_rain_dates <- strptime(knappett_rain$Date, format ="%m/%d/%y %H:%M")
+
+knappett_isotopes_fixed <- data.frame(knappett_isotopes, knappett_dates)
+knappett_rain_fixed <- data.frame(knappett_rain, knappett_rain_dates)
+
+# Subsetting Data
+upstream_data <- subset(knappett_isotopes_fixed, Site == "Upstream")
+downstream_data <- subset(knappett_isotopes_fixed, Site == "Downstream")
+
+# adding stream data
+lia_Q <- read.csv("lia_Q.csv")
+Q_dates <- strptime(lia_Q$Date_Time, format ="%m/%d/%y %H:%M")
+Q <- data.frame(lia_Q$Q, Q_dates)
+Qmelt <- melt(Q, id="Q_dates", value.name="Q")  # im so stupid this is just a 2 column dataframe....why am i melting LOLLLL...will leave as now, but will change later
+
+UpQ <- read.csv("UpQDataSlam.csv")
+colnames(UpQ)[1] <- "Up_Dates"
+Q_dates <- strptime(UpQ$Up_Dates, format ="%m/%d/%y %H:%M")
+Qup <- data.frame(UpQ$Q, Q_dates)
+QUpmelt <- melt(Qup, id="Q_dates", value.name="Qup")
+
+# add measured data points for calibration
+up_measured <- read.csv("up_q_measured.csv")
+colnames(up_measured)[1] <- "Date"
+up_measured$Date <- as.POSIXct(up_measured$Date, format ="%m/%d/%y %H:%M")
+
+down_measured <- read.csv("down_q_measured.csv")
+colnames(down_measured)[1] <- "Date"
+down_measured$Date <- as.POSIXct(down_measured$Date, format ="%m/%d/%y %H:%M")
+```
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+# python function for running mean
+import warnings
+warnings.filterwarnings('ignore')
+
+def running_mean(in_array,window):
+  import numpy as np
+  w = int(np.floor(window/2))
+  mean_array = np.zeros(len(in_array),dtype=np.float64)
+  i = int(w)
+  while i < len(in_array)-w:
+    mean_array[i] = np.mean(in_array[(i-w):(i+w+1)])
+    i += 1
+  window_used = int(w*2 +1)
+  return(mean_array,window_used)
+  
+df_downQ = r.Qmelt
+downQ = df_downQ['Q'].to_numpy() # taking discharge values
+rm_downQ = running_mean(downQ, 5) # returns 2-D array with running mean, making first two values and last two values 0, AND returning the window used.
+
+df_upQ = r.QUpmelt
+upQ = df_upQ['Qup'].to_numpy() # taking discharge values
+rm_upQ = running_mean(upQ, 5)
+
+df_downQ['MovingAverage5'] = rm_downQ[0]  # only care about first array with moving average
+df_upQ['MovingAverage5'] = rm_upQ[0] 
+
+df_downQ = df_downQ[['Q_dates', 'MovingAverage5']]
+df_upQ = df_upQ[['Q_dates', 'MovingAverage5']]
+
+df_downQ.drop(df_downQ.tail(2).index,inplace=True)
+df_downQ.drop(df_downQ.head(2).index,inplace=True) 
+
+df_upQ.drop(df_upQ.tail(2).index,inplace=True)
+df_upQ.drop(df_upQ.head(2).index,inplace=True) 
+
+#with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+#    print(df_upQ)
+
+### there are 2 NaNs in the upstream dataframe, row 16-17. Leave alone for now because I'm not sure how it effects the moving average
+
+```
+
+```{r Take python running mean values and put them in R, warning=FALSE, echo=FALSE, message=FALSE}
+rm_downq <- py$df_downQ
+rm_upq <- py$df_upQ
+```
+
+```{r Plotting ,fig.width=8,fig.height=6, echo=FALSE, warning=FALSE}
+# Oxygen
+oxygen_plot <- ggplot() +
+  geom_line(data = upstream_data, aes(x=knappett_dates, y=Oxygen, colour="HMU")) +
+  geom_point(data = upstream_data, aes(x=knappett_dates, y=Oxygen, colour="HMU")) +
+  geom_line(data = downstream_data, aes(x=knappett_dates, y=Oxygen, colour="HMD")) +
+  geom_point(data = downstream_data, aes(x=knappett_dates, y=Oxygen, colour="HMD")) +
+  geom_hline(yintercept = -6.49, linetype=2) + 
+  # annotate("text", x=as.Date(7/8/18 1:50), -6.49, vjust = -1, label = "Well 200") +
+  geom_hline(yintercept = -4.68, linetype=2) + 
+  # annotate("text", 0.9*max(upstream_data$knappett_dates), -4.68, vjust = -1, label = "Well 205") +
+  geom_hline(yintercept = -3.21, linetype=3) + 
+  # annotate("text", 0.9*max(upstream_data$knappett_dates), -3.21, vjust = 1.5, label = "Rain") +
+  theme_few() +
+  scale_color_manual("",
+                     breaks = c("HMU", "HMD"),
+                     values = c("HMU"="blue", "HMD"="red")) + 
+  # ggtitle("48-Hour Data Slam: Oxygen") +
+  theme(plot.title = element_text(hjust = 0.5),
+        text=element_text(size=20),
+        legend.position="none",
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        # axis.ticks.x=element_blank(),
+        axis.text.y = element_text(colour="black", size=18)) +
+  xlab("Time") +
+  ylab(expression(paste(delta^18,"O (‰)"))) +
+  scale_y_continuous(limits=c(-7,-3))
+
+# Deuterium
+deuterium_plot <- ggplot() +
+  geom_line(data = upstream_data, aes(x=knappett_dates, y=Deuterium, colour="HMU")) +
+  geom_point(data = upstream_data, aes(x=knappett_dates, y=Deuterium, colour="HMU")) +
+  geom_line(data = downstream_data, aes(x=knappett_dates, y=Deuterium, colour="HMD")) +
+  geom_point(data = downstream_data, aes(x=knappett_dates, y=Deuterium, colour="HMD")) + 
+  geom_hline(yintercept = -27.1, linetype=2) + 
+  geom_hline(yintercept = -25.1, linetype=2) + 
+  geom_hline(yintercept = -12.2, linetype=3) + 
+  theme_few() +
+  scale_color_manual("",
+                     breaks = c("HMU", "HMD"),
+                     values = c("HMU"="blue", "HMD"="red")) + 
+  # ggtitle("48-Hour Data Slam: Deuterium") +
+  theme(plot.title = element_text(hjust = 0.5),
+        text=element_text(size=20),
+        legend.position="bottom",
+        axis.text.y = element_text(colour="black", size=18),
+        axis.text.x = element_text(colour="black"),
+        axis.title.x = element_blank()) +
+  # xlab("\nTime") +
+  scale_x_datetime(date_labels = "%m/%d\n%H:%M") +
+  ylab(expression(paste(delta,"D (‰)"))) +
+  scale_y_continuous(limits=c(-40,-10))
+
+# Rain
+rain_plot <- ggplot(data = knappett_rain_fixed[1:581,], aes(x = knappett_rain_dates, y = Rain)) + 
+  geom_bar(stat = "identity", 
+           position = 'dodge',
+           # fill = "black", #rgb(187, 8, 38, maxColorValue = 255), 
+           color = "black") + #rgb(187, 8, 38, maxColorValue = 255)) + 
+  theme_bw() + 
+  # ggtitle("48-Hour Data Slam") +
+  theme(#text=element_text(size=18),
+        panel.border = element_blank(), 
+        panel.grid.major.x = element_blank(), 
+        panel.grid.major.y = element_blank(),# element_line(colour = "black"), 
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        axis.text.x = element_blank(), #(angle = 45, hjust = 1, color="white"),
+        axis.line.x = element_blank(), #(color = "white"),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_text(colour="black", size=18),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(colour="black", size=18)) + 
+  labs(y = "Precip\n(mm)") +
+  # scale_y_reverse() + 
+  scale_y_continuous(trans = "reverse")
+
+# Discharge
+Qplot <- ggplot() +
+  geom_line(data=Qmelt,
+            aes(x=Q_dates, y=Q, colour="HMD")) +
+  geom_line(data=QUpmelt,
+            aes(x=Q_dates, y=Qup, colour="HMU")) +
+  geom_line(data=rm_downq,
+            aes(x=Q_dates, y=MovingAverage5, colour="Moving average HMD")) +
+  geom_line(data=rm_upq,
+            aes(x=Q_dates, y=MovingAverage5, colour="Moving average HMU")) +
+  geom_point(data=up_measured,
+             aes(x=Date, y=Q, colour="MU")) +
+  geom_point(data=down_measured,
+             aes(x=Date, y=Q, colour="MD")) +
+  theme_few() +
+  scale_color_manual("",
+                     breaks = c("HMU", "HMD", 
+                                "Moving average HMU", "Moving average HMD",
+                                "MU","MD"),
+                     values = c("HMU"="lightblue1", "HMD"="pink",
+                                "Moving average HMU" = "blue",
+                                "Moving average HMD" = "red",
+                                "MU"="blue",
+                                "MD"="red")) + 
+  # ggtitle("48-Hour Data Slam: Oxygen") +
+  theme(plot.title = element_text(hjust = 0.5),
+        text=element_text(size=18),
+        legend.position="none",
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        # axis.ticks.x=element_blank(),
+        axis.text.y = element_text(colour="black", size=18)) +
+  xlab("Time") +
+  ylab("Discharge\n(cms)\n") 
+
+# rain_plot + oxygen_plot + deuterium_plot + plot_layout(ncol=1, heights=c(1,2,2))
+rain_plot + Qplot + oxygen_plot + deuterium_plot + plot_layout(ncol=1, heights=c(1,2,2,2))
+```
+
+### Groundwater Standing Water Height Time Series
+
+```{r Wells, fig.width=10,fig.height=5, echo=FALSE, warning=FALSE, message=FALSE}
+well <- read_csv("Well_SWH.csv", col_names = TRUE)
+# well$Date <- strptime(well$Date, format = "%m/%d/%y %H:%M")
+well$Date <- as.POSIXct(well$Date, format = "%m/%d/%y %H:%M")
+
+well_melt <- melt(well,id="Date",variable.name="Well")
+names(well_melt) <- sub("value","SWH",names(well_melt))
+
+# Lattice: Kinda love it...but must stick with ggplot graphics to subplot rain
+## xyplot( SWH ~ Date | Well, data=well_melt ,type ="l", layout = c(1,4) ) 
+### x = Date, y = SWH, Well is the different groups, layout gives the subplot form
+
+swh_plot <- ggplot(data = well_melt, aes(x = Date, y = SWH, color = Well, group = Well)) +
+  geom_line() +
+  theme_few() +
+   theme(plot.title = element_text(hjust = 0.5),
+        text=element_text(size=20),
+        legend.position="right",
+        axis.text.y = element_text(colour="black", size=18),
+        axis.text.x = element_text(colour="black"),
+        axis.title.x = element_blank(),
+        legend.title=element_blank()) +
+  xlab("Time") +
+  ylab("SWH\n(m)\n") +
+  scale_x_datetime(date_labels = "%m/%d\n%H:%M") +
+  scale_colour_Publication()
+  # scale_color_manual(values=c("#0072B2", "#D55E00", "#009E73", "#CC79A7"))
+
+
+Q2plot <- ggplot() +
+  geom_line(data=Qmelt,
+            aes(x=Q_dates, y=Q, colour="HMD")) +
+  geom_line(data=QUpmelt,
+            aes(x=Q_dates, y=Qup, colour="HMU")) +
+  theme_few() +
+  scale_color_manual("",
+                     breaks = c("HMU", "HMD"),
+                     values = c("HMU"="blue", "HMD"="red")) + 
+  labs(fill = "Site") +
+  theme(plot.title = element_text(hjust = 0.5),
+        text=element_text(size=18),
+        legend.position="right",
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.text.y = element_text(colour="black", size=18)) +
+  xlab("Time") +
+  ylab("Discharge\n(cms)\n") 
+
+rain2_plot <- ggplot(data = knappett_rain_fixed[1:581,], aes(x = knappett_rain_dates, y = Rain)) + 
+  geom_bar(stat = "identity", 
+           position = 'dodge',
+           # fill = "black", #rgb(187, 8, 38, maxColorValue = 255), 
+           color = "black") + #rgb(187, 8, 38, maxColorValue = 255)) + 
+  theme_bw() + 
+  # ggtitle("48-Hour Data Slam") +
+  theme(legend.position = "right",
+        panel.border = element_blank(), 
+        panel.grid.major.x = element_blank(), 
+        panel.grid.major.y = element_blank(),# element_line(colour = "black"), 
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        axis.text.x = element_blank(), #(angle = 45, hjust = 1, color="white"),
+        axis.line.x = element_blank(), #(color = "white"),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_text(colour="black", size=18),
+        axis.title.x = element_blank(), 
+        axis.title.y = element_text(colour="black", size=18)) + 
+  labs(y = "Precip\n(mm)") +
+  scale_y_continuous(trans = "reverse")
+
+rain2_plot+ Qplot + swh_plot + plot_layout(ncol=1, heights=c(1,2,2))
+```
+
+```{r Wells2, fig.width=8,fig.height=5, echo=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
+well <- read_csv("Well_SWH.csv", col_names = TRUE)
+# well$Date <- strptime(well$Date, format = "%m/%d/%y %H:%M")
+well$Date <- as.POSIXct(well$Date, format = "%m/%d/%y %H:%M")
+
+well_melt <- melt(well,id="Date",variable.name="Well")
+names(well_melt) <- sub("value","SWH",names(well_melt))
+
+# Lattice: Kinda love it...but must stick with ggplot graphics to subplot rain
+## xyplot( SWH ~ Date | Well, data=well_melt ,type ="l", layout = c(1,4) ) 
+### x = Date, y = SWH, Well is the different groups, layout gives the subplot form
+
+swh_plot <- ggplot(data = well_melt, aes(x = Date, y = SWH, color = Well, group = Well)) +
+  geom_line() +
+  theme_few() +
+   theme(plot.title = element_text(hjust = 0.5),
+        text=element_text(size=20),
+        legend.position="right",
+        axis.text.y = element_text(colour="black", size=18),
+        axis.text.x = element_text(colour="black"),
+        axis.title.x = element_blank()) +
+  scale_x_datetime(date_labels = "%m/%d\n%H:%M") +
+  scale_colour_Publication() + 
+  theme_Publication()
+  # scale_color_manual(values=c("#0072B2", "#D55E00", "#009E73", "#CC79A7"))
+
+rain2_plot <- ggplot(data = knappett_rain_fixed[1:581,], aes(x = knappett_rain_dates, y = Rain)) + 
+  geom_bar(stat = "identity", 
+           position = 'dodge',
+           # fill = "black", #rgb(187, 8, 38, maxColorValue = 255), 
+           color = "black") + #rgb(187, 8, 38, maxColorValue = 255)) + 
+  theme_bw() + 
+  # ggtitle("48-Hour Data Slam") +
+  theme(legend.position = "right",
+        panel.border = element_blank(), 
+        panel.grid.major.x = element_blank(), 
+        panel.grid.major.y = element_blank(),# element_line(colour = "black"), 
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        axis.text.x = element_blank(), #(angle = 45, hjust = 1, color="white"),
+        axis.line.x = element_blank(), #(color = "white"),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_text(colour="black", size=14),
+        axis.title.x = element_blank(), 
+        axis.title.y = element_text(colour="black", size=14, face="bold")) + 
+  labs(y = "Precip\n(mm)") +
+  scale_y_continuous(trans = "reverse")
+
+# rain2_plot+ swh_plot+ plot_layout(ncol=1, heights=c(1,2))
+```
+
+
+# Stream Chemistry
+
+```{r ICPMS 1, echo=FALSE}
+data_in <- read.csv("icpms.csv", stringsAsFactors = FALSE)
+
+data_in$Date <- format(data_in$Date, format = "%m/%d/%y %H:%M") 
+data_in$Date <- as.POSIXct(data_in$Date, format = "%m/%d/%y %H:%M") 
+
+data_in[,2:25] <- data_in[,2:25]*1000 # will convert from xg/L to xg/m^3
+
+data_in[3,2:25] <- data_in[3,2:25]*data_in[3,26] # multiply xg/m^3 by corresponding discharge
+data_in[5,2:25] <- data_in[5,2:25]*data_in[5,26]
+data_in[6,2:25] <- data_in[6,2:25]*data_in[6,26]
+data_in[7,2:25] <- data_in[7,2:25]*data_in[7,26]
+data_in[8,2:25] <- data_in[8,2:25]*data_in[8,26]
+data_in[9,2:25] <- data_in[9,2:25]*data_in[9,26]
+data_in[10,2:25] <- data_in[10,2:25]*data_in[10,26]
+data_in[11,2:25] <- data_in[11,2:25]*data_in[11,26]
+data_in[12,2:25] <- data_in[12,2:25]*data_in[12,26]
+data_in[13,2:25] <- data_in[13,2:25]*data_in[13,26]
+data_in[14,2:25] <- data_in[14,2:25]*data_in[14,26]
+data_in[15,2:25] <- data_in[15,2:25]*data_in[15,26]
+data_in[16,2:25] <- data_in[16,2:25]*data_in[16,26]
+data_in[17,2:25] <- data_in[17,2:25]*data_in[17,26]
+data_in[18,2:25] <- data_in[18,2:25]*data_in[18,26]
+data_in[19,2:25] <- data_in[19,2:25]*data_in[19,26]
+data_in[20,2:25] <- data_in[20,2:25]*data_in[20,26]
+data_in[21,2:25] <- data_in[21,2:25]*data_in[21,26]
+data_in[22,2:25] <- data_in[22,2:25]*data_in[22,26]
+data_in[23,2:25] <- data_in[23,2:25]*data_in[23,26]
+data_in[24,2:25] <- data_in[24,2:25]*data_in[24,26]
+data_in[25,2:25] <- data_in[25,2:25]*data_in[25,26]
+data_in[26,2:25] <- data_in[26,2:25]*data_in[26,26]
+data_in[27,2:25] <- data_in[27,2:25]*data_in[27,26]
+data_in[28,2:25] <- data_in[28,2:25]*data_in[28,26]
+data_in[29,2:25] <- data_in[29,2:25]*data_in[29,26]
+data_in[30,2:25] <- data_in[30,2:25]*data_in[30,26]
+data_in[31,2:25] <- data_in[31,2:25]*data_in[31,26]
+data_in[32,2:25] <- data_in[32,2:25]*data_in[32,26]
+data_in[33,2:25] <- data_in[33,2:25]*data_in[33,26]
+data_in[34,2:25] <- data_in[34,2:25]*data_in[34,26]
+data_in[35,2:25] <- data_in[35,2:25]*data_in[35,26]
+
+up_icpms = data_in[c(3,5:19),c(1:25,27)] # subsetting upstream and downstream data
+down_icpms = data_in[c(20:35),c(1:25,27)]
+
+US1 <- as.POSIXct("2018-07-06 17:52:00")
+DS1 <- as.POSIXct("2018-07-06 17:17:00")
+
+up_icpms$Date <- difftime(up_icpms$Date, US1, units = "secs")
+down_icpms$Date <- difftime(down_icpms$Date, DS1, units = "secs")
+
+# I used write.csv(up_icpms, "up_icpms.csv") ### in the same vein with down_icpms
+```
+
+## Stable water isotope bivariate plot with GMWL
+
+```{r Bivariate stable water isotope, fig.width=7,fig.height=6, echo=FALSE, warning = FALSE}
+data <- read.csv("isotopedata.csv", stringsAsFactors = FALSE)
+global_precipitation <- read.csv("global_precipitation.csv", stringsAsFactors = FALSE) #GMWL
+global_stream <- read.csv("global_stream.csv", stringsAsFactors = FALSE)
+
+# Adjusting for datetime
+data$Date_Time <- strptime(data$Date_Time, format = "%m/%d/%y %H:%M")
+
+# dates <- strptime(data$Date_Time, format = "%m/%d/%y %H:%M")
+# fixed_data <- data.frame(data, dates)
+# 
+
+
+# Subsetting Data
+rain_data <- subset(data, Type == "Precipitation")
+stream_data <- subset(data, Location == "Weir")
+spring_data <- subset(data, Location == "Spring")
+upstream_data <- subset(data, Type == "Upstream")
+well_data <- subset(data, Type == "Well")
+
+# Linear Regression
+fit_data <- lm(deuterium ~ oxygen, data = data)
+rout_data <- list(paste('LMWL: y = ', round(coef(fit_data)[1], 3), ' + ', 
+                        round(coef(fit_data)[2], 3), 'x', sep = ''),
+                  paste('R^2 == ', round(summary(fit_data)[['r.squared']], 3),
+                        sep = '')  )
+
+fit_rain <- lm(deuterium ~ oxygen, data = rain_data)
+rout_rain <- list(paste('LMWL: y = ', round(coef(fit_rain)[1], 3), ' + ', 
+                        round(coef(fit_rain)[2], 3), 'x', sep = ''),
+                  paste('R^2 == ', round(summary(fit_rain)[['r.squared']], 3),
+                        sep = '')  )
+
+fit_stream <- lm(deuterium ~ oxygen, data = stream_data)
+rout_stream <- list(paste('y = ', round(coef(fit_stream)[1], 3), ' + ', 
+                          round(coef(fit_stream)[2], 3), 'x', sep = ''),
+                    paste('R^2 == ', round(summary(fit_stream)[['r.squared']], 3),
+                          sep = '')  )
+
+fit_spring <- lm(deuterium ~ oxygen, data = spring_data)
+rout_spring <- list(paste('y = ', round(coef(fit_spring)[1], 3), ' + ', 
+                          round(coef(fit_spring)[2], 3), 'x', sep = ''),
+                    paste('R^2 == ', round(summary(fit_spring)[['r.squared']], 3),
+                          sep = '')  )
+
+# Plotting
+ggplot() +
+  geom_point(data=rain_data, aes(x=oxygen, y=deuterium, colour="Precipitation")) +
+  geom_point(data=upstream_data, aes(x=oxygen, y=deuterium, colour="HMU")) +
+  geom_point(data=stream_data, aes(x=oxygen, y=deuterium, colour="HMD")) +
+  geom_point(data=spring_data, aes(x=oxygen, y=deuterium, colour="Spring")) + 
+  geom_point(data=well_data, aes(x=oxygen, y=deuterium, colour="Well")) +
+  geom_line(data=global_precipitation, aes(x=Global_Oxygen, y=Global_Deuterium, color="GMWL")) +
+  theme_few() +
+  scale_color_manual("",
+                     breaks = c("Precipitation", "HMU", "HMD", "Spring", "Well", "GMWL"),
+                     values = c("Precipitation"="black", "HMU" = "blue",
+                                "HMD"= "red",
+                                "Spring"="green", "Well" = "orange", "GMWL"="black")) + 
+  ggtitle("Isotopes Along Howler Monkey") +
+  theme(# plot.title = element_text(hjust = 0.5),
+        plot.title = element_blank(),
+        text=element_text(size=18),
+        axis.text.x=element_text(colour="black"),
+        axis.text.y=element_text(colour="black"),
+        legend.position = c(0.8, 0.25)) +
+  xlab(expression(paste(delta^18, "O (‰)"))) +
+  ylab(expression(paste(delta^2,"H (‰)"))) +
+  geom_smooth(data=rain_data, method="lm", col="black", fullrange=TRUE, se=FALSE,
+              linetype="dashed", size=0.5,
+              show.legend=FALSE, aes(x=oxygen, y=deuterium)) +
+  geom_text(aes(x = -7.5, y = 5, label = rout_rain[[1]]), hjust = 0) +       #x and y denote position on chart
+  geom_text(aes(x = -7.5, y = 0, label = rout_rain[[2]]), hjust = 0, parse = TRUE )
+```
+
+<!--
+## ICPMS Time Series -->
+
+```{r ICPMS, echo=FALSE}
+up_icpms <- read.csv("up_icpms.csv", stringsAsFactors = FALSE)
+down_icpms <- read.csv("down_icpms.csv", stringsAsFactors = FALSE)
+
+drops <- c("sample","Sample.ID")
+up_icpms <- up_icpms[ , !(names(up_icpms) %in% drops)]
+down_icpms <- down_icpms[ , !(names(down_icpms) %in% drops)]
+
+up_melt <- melt(up_icpms,id="Seconds",variable.name="Element")
+names(up_melt) <- sub("value","Concentration",names(up_melt))
+
+down_melt <- melt(down_icpms,id="Seconds",variable.name="Element")
+names(down_melt) <- sub("value","Concentration",names(down_melt))
+
+up_icpms_plot <- ggplot(data = up_melt, aes(x = Seconds, y = Concentration, color = Element, group = Element)) +
+  geom_line() +
+  theme_few() +
+   theme(plot.title = element_text(hjust = 0.5),
+        text=element_text(size=20),
+        legend.position="right",
+        axis.text.y = element_text(colour="black", size=18),
+        axis.text.x = element_text(colour="black"),
+        legend.title=element_blank()) +
+  xlab("Time Elapsed (s)") +
+  ylab(expression(paste(
+  "Concentration (",
+  mu, g, "/", s,
+  ")", sep=""))) +
+  scale_colour_Publication()
+```
+
+## Pair plot for Base Cations 
+<!-- in 2018 by ICPMS -->
+
+```{python echo=FALSE, messages=FALSE}
+import warnings
+warnings.filterwarnings('ignore')
+
+cats = pd.read_csv("chemistry_all.csv")
+
+plt.figure(figsize=(12,8))
+sns.pairplot(cats, vars=["Ca","K","Mg","Na"],hue="Source")
+plt.savefig('cats.png', dpi=300, bbox_inches="tight")
+```
+
+![](cats.png) <!-- Pair Plot for Base Cations in 2018 -->
+
+## Pair plot for Select Trace Elements
+```{python echo=FALSE, messages=FALSE}
+import warnings
+warnings.filterwarnings('ignore')
+
+plt.figure(figsize=(12,8))
+sns.pairplot(cats, vars=["As","Mn","Fe","Cr"],hue="Source")
+plt.savefig('trace1.png', dpi=300, bbox_inches="tight")
+```
+
+![](trace1.png) <!-- Pair Plot for Select Trace Elements in 2018 -->
+
+## Pair plot for Stable Isotopes
+```{python echo=FALSE, messages=FALSE}
+import warnings
+warnings.filterwarnings('ignore')
+
+plt.figure(figsize=(12,8))
+sns.pairplot(cats, vars=["O18","D"],hue="Source")
+plt.savefig('swi.png', dpi=300, bbox_inches="tight")
+```
+
+![](swi.png) <!-- Pair Plot for Select Trace Elements in 2018 -->
+
+
+## Pair plot for IC vs ICPMS
+```{python echo=FALSE, messages=FALSE}
+import warnings
+warnings.filterwarnings('ignore')
+
+plt.figure(figsize=(12,8))
+sns.pairplot(cats, vars=["Ca_IC","K_IC","Mg_IC","Na_IC","Ca","K","Mg","Na"],hue="Source")
+plt.savefig('com.png', dpi=300, bbox_inches="tight")
+```
+
+![](com.png) <!-- Pair Plot for Select Trace Elements in 2018 -->
+
+## Pair plot for N Species and Stable Water
+```{python echo=FALSE, messages=FALSE}
+import warnings
+warnings.filterwarnings('ignore')
+
+plt.figure(figsize=(12,8))
+sns.pairplot(cats, vars=["NO2","NO3","O18","D"],hue="Source")
+plt.savefig('rand.png', dpi=300, bbox_inches="tight")
+```
+
+![](rand.png) <!-- Pair Plot for Select Trace Elements in 2018 -->
+
+## Mass Loads Over 48 Hours: Trace Elements
+```{r echo=FALSE, fig.width=12}
+df1 <- read.csv("elemental_loads_ug_to_g.csv", stringsAsFactors = FALSE)
+
+#~~~~~~~~~~~~~~~~~~~#
+df1a <- df1 %>%
+  select(Element, Up_mass_g, Down_mass_g) %>%
+  filter(Element != "B" & Element != "Al" & Element != "S" &
+           Element != "Sr" & Element != "Zn" & Element != "Fe" & Element != "P")
+
+melt_df1a <- melt(df1a, id="Element")
+#~~~~~~~~~~~~~~~~~~~#
+df1b <- df1 %>%
+  select(Element, Up_mass_g, Down_mass_g) %>%
+  filter(Element == "Al" | Element == "S" |
+           Element == "Sr" | Element == "Zn" | Element == "Fe" | Element == "P")
+
+melt_df1b <- melt(df1b, id="Element")
+#~~~~~~~~~~~~~~~~~~~#
+
+df1a_plot <- ggplot(melt_df1a, aes(fill=variable, y=value, x=Element)) +
+  geom_bar(position="stack", stat="identity") +
+  scale_fill_viridis(discrete = T) +
+  theme_few() +
+  xlab("") +
+  ylab("Mass Load (g)") +
+  theme(legend.position = "none")
+
+df1b_plot <- ggplot(melt_df1b, aes(fill=variable, y=value, x=Element)) +
+  geom_bar(position="stack", stat="identity") +
+  scale_fill_viridis(discrete = T) +
+  theme_few() +
+  xlab("") +
+  ylab("Mass Load (g)")
+# removed B because masses were too big
+
+df1a_plot+ df1b_plot+ plot_layout(ncol=2, widths = c(6,6.2))
+```
+
