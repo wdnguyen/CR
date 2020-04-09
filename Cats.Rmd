@@ -163,7 +163,7 @@ rm_upq <- py$df_upQ
 
 # Hydrograph, Hyetograph, Stable Water Isotope Time Series
 
-```{r Plotting ,fig.width=8,fig.height=6, echo=FALSE, warning=FALSE}
+```{r Plotting,fig.width=8,fig.height=6, echo=FALSE, warning=FALSE}
 # Oxygen
 oxygen_plot <- ggplot() +
   geom_line(data = UpI, aes(x=Date_Time, y=Oxygen, colour="HMU")) +
@@ -305,7 +305,7 @@ rain_plot+ Qplot + swh_plot + plot_layout(ncol=1, heights=c(1,2,2))
 
 # Stable water isotope bivariate plot with GMWL
 
-```{r Isotope Bivariate, echo=FALSE}
+```{r IsotopeBivariate, echo=FALSE}
 # Linear Regression
 fit_data <- lm(deuterium ~ oxygen, data = isotopes2)
 rout_data <- list(paste('LMWL: y = ', round(coef(fit_data)[1], 3), ' + ', 

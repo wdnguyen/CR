@@ -27,7 +27,7 @@ output:
 
 # Hydrograph, Hyetograph, Stable Water Isotope Time Series
 
-![](Cats_files/figure-html/Plotting -1.png)<!-- -->
+![](Cats_files/figure-html/Plotting-1.png)<!-- -->
 
 # Groundwater Standing Water Height Time Series
 
@@ -40,7 +40,7 @@ output:
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](Cats_files/figure-html/Isotope Bivariate-1.png)<!-- -->
+![](Cats_files/figure-html/IsotopeBivariate-1.png)<!-- -->
 
 
 # ICPMS Time Series 
