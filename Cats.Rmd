@@ -30,7 +30,7 @@ library(viridis)
 source("MyUtils.R")
 ```
 
-```{r echo=FALSE}
+```{r Importing Python Libraries, echo=FALSE}
 # use_condaenv(condaenv = "r-reticulate-1", required=TRUE)
 sp <- import("scipy")
 np <- import("numpy")
@@ -41,12 +41,117 @@ sns <- import("seaborn")
 pd <- import("pandas")
 ```
 
-# Hydrological time series
+```{r Importing Data, echo=FALSE}
+#~~~~~~~~~~~~~~ Isotopes and Rain  ~~~~~~~~~~~~~~#
 
-```{r}
 isotopes <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/knappett_isotopes.csv")
 rain <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/DownstreamMiller.csv")
 
 isotopes$Date_Time <- strptime(isotopes$Date_Time, format = "%m/%d/%y %H:%M")
 rain$Date <- strptime(rain$Date, format ="%m/%d/%y %H:%M")
+
+UpI <- subset(isotopes, Site == "Upstream")
+DownI <- subset(isotopes, Site == "Downstream")
+
+### Bivariate plots
+
+isotopes2 <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/isotopedata.csv", stringsAsFactors = FALSE)
+global_precipitation <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/global_precipitation.csv", stringsAsFactors = FALSE) #GMWL
+global_stream <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/global_stream.csv", stringsAsFactors = FALSE)
+
+isotopes2$Date_Time <- strptime(isotopes2$Date_Time, format = "%m/%d/%y %H:%M")
+
+rain_data <- subset(isotopes2, Type == "Precipitation")
+stream_data <- subset(isotopes2, Location == "Weir")
+spring_data <- subset(isotopes2, Location == "Spring")
+upstream_data <- subset(isotopes2, Type == "Upstream")
+well_data <- subset(isotopes2, Type == "Well")
+
+#~~~~~~~~~~~~~~ Discharge ~~~~~~~~~~~~~~#
+
+DownQ <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/lia_Q.csv")
+DownQ$Date_Time <- strptime(DownQ$Date_Time, format ="%m/%d/%y %H:%M")
+
+UpQ <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/UpQDataSlam.csv", stringsAsFactors = TRUE)
+# colnames(UpQ)[1] <- "Up_Dates"
+UpQ$Up_Dates <- strptime(UpQ$Up_Dates, format ="%m/%d/%y %H:%M")
+
+# Manual Discharge Data Points
+
+DownQ_measured <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/down_q_measured.csv")
+colnames(DownQ_measured)[1] <- "Date"
+DownQ_measured$Date <- as.POSIXct(DownQ_measured$Date, format ="%m/%d/%y %H:%M")
+
+UpQ_measured <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/up_q_measured.csv")
+colnames(UpQ_measured)[1] <- "Date"
+UpQ_measured$Date <- as.POSIXct(UpQ_measured$Date, format ="%m/%d/%y %H:%M")
+
+#~~~~~~~~~~~~~~ Wells ~~~~~~~~~~~~~~#
+
+well <- read_csv("https://raw.githubusercontent.com/wdnguyen/CR/master/Well_SWH.csv", col_names = TRUE)
+well$Date <- as.POSIXct(well$Date, format = "%m/%d/%y %H:%M")
+
+well_melt <- melt(well,id="Date",variable.name="Well")
+names(well_melt) <- sub("value","SWH",names(well_melt))
+
+#~~~~~~~~~~~~~~ ICPMS Chemistry ~~~~~~~~~~~~~~#
+
+data_in <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/icpms.csv", stringsAsFactors = FALSE)
+
+data_in$Date <- format(data_in$Date, format = "%m/%d/%y %H:%M") 
+data_in$Date <- as.POSIXct(data_in$Date, format = "%m/%d/%y %H:%M") 
+
+### mass fluxes
+up_icpms <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/up_icpms.csv", stringsAsFactors = FALSE)
+down_icpms <- read.csv("https://github.com/wdnguyen/CR/blob/master/down_icpms.csv", stringsAsFactors = FALSE)
+
+### all chemistry
+cats = read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/chemistry_all.csv")
 ```
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+# python function for running mean
+import warnings
+warnings.filterwarnings('ignore')
+
+def running_mean(in_array,window):
+  import numpy as np
+  w = int(np.floor(window/2))
+  mean_array = np.zeros(len(in_array),dtype=np.float64)
+  i = int(w)
+  while i < len(in_array)-w:
+    mean_array[i] = np.mean(in_array[(i-w):(i+w+1)])
+    i += 1
+  window_used = int(w*2 +1)
+  return(mean_array,window_used)
+  
+df_downQ = r.DownQ
+downQ = df_downQ['Q'].to_numpy() # taking discharge values
+rm_downQ = running_mean(downQ, 5) # returns 2-D array with running mean, making first two values and last two values 0, AND returning the window used.
+
+df_upQ = r.UpQ
+upQ = df_upQ['Qup'].to_numpy() # taking discharge values
+rm_upQ = running_mean(upQ, 5)
+
+df_downQ['MovingAverage5'] = rm_downQ[0]  # only care about first array with moving average
+df_upQ['MovingAverage5'] = rm_upQ[0] 
+
+df_downQ = df_downQ[['Q_dates', 'MovingAverage5']]
+df_upQ = df_upQ[['Q_dates', 'MovingAverage5']]
+
+df_downQ.drop(df_downQ.tail(2).index,inplace=True)
+df_downQ.drop(df_downQ.head(2).index,inplace=True) 
+
+df_upQ.drop(df_upQ.tail(2).index,inplace=True)
+df_upQ.drop(df_upQ.head(2).index,inplace=True) 
+```
+
+
+
+<details>
+<summary> How do I dropdown </summary>
+<br>
+This is how you dropdown.
+</details>
+
+
