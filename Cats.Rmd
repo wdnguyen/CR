@@ -400,7 +400,7 @@ up_icpms_plot
 # Pair plot for Base Cations 
 <!-- in 2018 by ICPMS -->
 
-```{python echo=FALSE, messages=FALSE}
+```{python chem1, fig.width=12,fig.height=8, echo=FALSE, messages=FALSE}
 import warnings
 warnings.filterwarnings('ignore')
 

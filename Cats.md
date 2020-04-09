@@ -54,10 +54,10 @@ output:
 
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fd6602379d0>
+## <seaborn.axisgrid.PairGrid object at 0x7f9f90f6eb10>
 ```
 
-![](Cats_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](Cats_files/figure-html/chem1-1.png)<!-- -->
 
 
 
