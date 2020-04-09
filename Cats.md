@@ -49,22 +49,73 @@ output:
 
 ![](Cats_files/figure-html/ICPMS-1.png)<!-- -->
 
-# Pair plot for Base Cations 
-<!-- in 2018 by ICPMS -->
+# Mass Loads Over 48 Hours: Trace Elements
+![](Cats_files/figure-html/elementalloads-1.png)<!-- -->
 
+
+# Pair Plots 
+
+<details>
+<summary> Pair plot for Base Cations </summary>
+<br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7f9f90f6eb10>
+## <seaborn.axisgrid.PairGrid object at 0x7fb9c899c790>
 ```
 
 ![](Cats_files/figure-html/chem1-1.png)<!-- -->
+</details>
+
+<details>
+<summary> Pair plot for Select Trace Elements </summary>
+<br>
+
+```
+## <seaborn.axisgrid.PairGrid object at 0x7fb9c0054990>
+```
+
+![](Cats_files/figure-html/chem2-1.png)<!-- -->
+</details>
+
+<details>
+<summary> Pair plot for Select Isotopes </summary>
+<br>
+
+```
+## <seaborn.axisgrid.PairGrid object at 0x7fb9a89a3210>
+```
+
+![](Cats_files/figure-html/chem3-1.png)<!-- -->
+</details>
+
+<details>
+<summary> Pair plot for ICPMS vs. IC </summary>
+<br>
+
+```
+## <seaborn.axisgrid.PairGrid object at 0x7fb9b9563f10>
+```
+
+![](Cats_files/figure-html/chem4-1.png)<!-- -->
+</details>
 
 
+<details>
+<summary> Pair plot for Nitrogen Species and Stable Water Isotopes </summary>
+<br>
 
+```
+## <seaborn.axisgrid.PairGrid object at 0x7fb9c84a8a50>
+```
+
+![](Cats_files/figure-html/chem5-1.png)<!-- -->
+</details>
+
+<!--
 <details>
 <summary> How do I dropdown </summary>
 <br>
 This is how you dropdown.
 </details>
-
+-->
 

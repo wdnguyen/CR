@@ -130,6 +130,9 @@ names(down_melt) <- sub("value","Concentration",names(down_melt))
 
 ### all chemistry
 cats = read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/chemistry_all.csv")
+
+### elemental loads
+df1 <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/elemental_loads_ug_to_g.csv", stringsAsFactors = FALSE)
 ```
 
 ```{python echo=FALSE, message=FALSE, warning=FALSE}
@@ -397,9 +400,49 @@ up_icpms_plot <- ggplot(data = up_melt, aes(x = Seconds, y = Concentration, colo
 up_icpms_plot
 ```
 
-# Pair plot for Base Cations 
-<!-- in 2018 by ICPMS -->
+# Mass Loads Over 48 Hours: Trace Elements
+```{r elementalloads, echo=FALSE, fig.width=12}
+#~~~~~~~~~~~~~~~~~~~#
+df1a <- df1 %>%
+  select(Element, Up_mass_g, Down_mass_g) %>%
+  filter(Element != "B" & Element != "Al" & Element != "S" &
+           Element != "Sr" & Element != "Zn" & Element != "Fe" & Element != "P")
 
+melt_df1a <- melt(df1a, id="Element")
+#~~~~~~~~~~~~~~~~~~~#
+df1b <- df1 %>%
+  select(Element, Up_mass_g, Down_mass_g) %>%
+  filter(Element == "Al" | Element == "S" |
+           Element == "Sr" | Element == "Zn" | Element == "Fe" | Element == "P")
+
+melt_df1b <- melt(df1b, id="Element")
+#~~~~~~~~~~~~~~~~~~~#
+
+df1a_plot <- ggplot(melt_df1a, aes(fill=variable, y=value, x=Element)) +
+  geom_bar(position="stack", stat="identity") +
+  scale_fill_viridis(discrete = T) +
+  theme_few() +
+  xlab("") +
+  ylab("Mass Load (g)") +
+  theme(legend.position = "none")
+
+df1b_plot <- ggplot(melt_df1b, aes(fill=variable, y=value, x=Element)) +
+  geom_bar(position="stack", stat="identity") +
+  scale_fill_viridis(discrete = T) +
+  theme_few() +
+  xlab("") +
+  ylab("Mass Load (g)")
+# removed B because masses were too big
+
+df1a_plot+ df1b_plot+ plot_layout(ncol=2, widths = c(6,6.2))
+```
+
+
+# Pair Plots 
+
+<details>
+<summary> Pair plot for Base Cations </summary>
+<br>
 ```{python chem1, fig.width=12,fig.height=8, echo=FALSE, messages=FALSE}
 import warnings
 warnings.filterwarnings('ignore')
@@ -411,13 +454,62 @@ sns.pairplot(chem, vars=["Ca","K","Mg","Na"],hue="Source")
 # plt.savefig('cats.png', dpi=300, bbox_inches="tight")
 plt.show()
 ```
+</details>
+
+<details>
+<summary> Pair plot for Select Trace Elements </summary>
+<br>
+```{python chem2, echo=FALSE, fig.width=12,fig.height=8, messages=FALSE}
+warnings.filterwarnings('ignore')
+
+plt.figure(figsize=(12,8))
+sns.pairplot(chem, vars=["As","Mn","Fe","Cr"],hue="Source")
+plt.show()
+```
+</details>
+
+<details>
+<summary> Pair plot for Select Isotopes </summary>
+<br>
+```{python chem3, echo=FALSE, fig.width=12,fig.height=8, messages=FALSE}
+warnings.filterwarnings('ignore')
+
+plt.figure(figsize=(12,8))
+sns.pairplot(chem, vars=["O18","D"],hue="Source")
+plt.show()
+```
+</details>
+
+<details>
+<summary> Pair plot for ICPMS vs. IC </summary>
+<br>
+```{python chem4, fig.width=12,fig.height=8, echo=FALSE, messages=FALSE}
+warnings.filterwarnings('ignore')
+
+plt.figure(figsize=(12,8))
+sns.pairplot(chem, vars=["Ca_IC","K_IC","Mg_IC","Na_IC","Ca","K","Mg","Na"],hue="Source")
+plt.show()
+```
+</details>
 
 
+<details>
+<summary> Pair plot for Nitrogen Species and Stable Water Isotopes </summary>
+<br>
+```{python chem5, echo=FALSE, messages=FALSE}
+warnings.filterwarnings('ignore')
 
+plt.figure(figsize=(12,8))
+sns.pairplot(chem, vars=["NO2","NO3","O18","D"],hue="Source")
+plt.show()
+```
+</details>
+
+<!--
 <details>
 <summary> How do I dropdown </summary>
 <br>
 This is how you dropdown.
 </details>
-
+-->
 
