@@ -41,6 +41,19 @@ sns <- import("seaborn")
 pd <- import("pandas")
 ```
 
+```{python echo=FALSE}
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import gridspec
+import scipy as sp
+from scipy import fftpack
+from scipy import integrate 
+import pandas as pd
+import glob
+import os
+import seaborn as sns
+```
+
 ```{r Importing Data, echo=FALSE}
 #~~~~~~~~~~~~~~ Isotopes and Rain  ~~~~~~~~~~~~~~#
 
@@ -383,6 +396,23 @@ up_icpms_plot <- ggplot(data = up_melt, aes(x = Seconds, y = Concentration, colo
 
 up_icpms_plot
 ```
+
+# Pair plot for Base Cations 
+<!-- in 2018 by ICPMS -->
+
+```{python echo=FALSE, messages=FALSE}
+import warnings
+warnings.filterwarnings('ignore')
+
+chem = r.cats
+
+plt.figure(figsize=(12,8))
+sns.pairplot(chem, vars=["Ca","K","Mg","Na"],hue="Source")
+# plt.savefig('cats.png', dpi=300, bbox_inches="tight")
+plt.show()
+```
+
+
 
 <details>
 <summary> How do I dropdown </summary>

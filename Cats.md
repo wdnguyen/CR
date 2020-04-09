@@ -10,6 +10,8 @@ output:
 
 
 
+
+
 ```
 ## Parsed with column specification:
 ## cols(
@@ -46,6 +48,18 @@ output:
 # ICPMS Time Series 
 
 ![](Cats_files/figure-html/ICPMS-1.png)<!-- -->
+
+# Pair plot for Base Cations 
+<!-- in 2018 by ICPMS -->
+
+
+```
+## <seaborn.axisgrid.PairGrid object at 0x7fd6602379d0>
+```
+
+![](Cats_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+
 
 <details>
 <summary> How do I dropdown </summary>
