@@ -8,15 +8,12 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-library(reticulate)
-library(tidyverse)
+library(reticulate) # interface to Python
+library(tidyverse) # godsend: ggplot2, tibble, tidyr, readr, dplyr, purrr, stringr, forcats
 library(gridExtra)
 library(grid)
 library(ggthemes)
 library(reshape)
-library(dplyr)
-library(tidyr)
-library(readr)
 library(lubridate)
 library(reshape2)
 library(scales)
@@ -24,10 +21,24 @@ library(patchwork) # subplotting
 library(ggrepel)
 library(ggpmisc)
 library(ggpubr)
-# library(blockTools)
+library(blockTools)
 library(ggstatsplot)
 library(lattice)
 library(viridis)
+
+# Utility functions (pretty graphs)
+source("MyUtils.R")
+```
+
+```{r echo=FALSE}
+# use_condaenv(condaenv = "r-reticulate-1", required=TRUE)
+sp <- import("scipy")
+np <- import("numpy")
+matplotlib <- import("matplotlib")
+matplotlib$use("Agg", force = TRUE)
+plt <- import("matplotlib.pyplot")
+sns <- import("seaborn")
+pd <- import("pandas")
 ```
 
 # Hydrological time series
@@ -39,4 +50,3 @@ rain <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/Downstrea
 isotopes$Date_Time <- strptime(isotopes$Date_Time, format = "%m/%d/%y %H:%M")
 rain$Date <- strptime(rain$Date, format ="%m/%d/%y %H:%M")
 ```
-
