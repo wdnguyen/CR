@@ -393,6 +393,10 @@ biv
 ![Time Series of Base Cations Over 48 Hours](https://github.com/wdnguyen/CR/blob/master/basecations.png?raw=true "Base Cations")
 
 
+# Time Series of Trace Elements Over 48 Hours
+![Time Series of Trace Elements Over 48 Hours](https://github.com/wdnguyen/CR/blob/master/traceelements.png?raw=true "Trace Elements 1")
+
+
 # ICPMS Time Series 
 
 ```{r ICPMS, echo=FALSE}
