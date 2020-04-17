@@ -381,6 +381,9 @@ biv <- ggplot() +
 biv
 ```
 
+# Piper Diagram of Streamwater and Endmembers
+![Piper Diagram](https://github.com/wdnguyen/CR/blob/master/piper1.png?raw=true "Piper Diagram")
+
 
 # ICPMS Time Series 
 
@@ -519,7 +522,5 @@ This is how you dropdown.
 </details>
 -->
 
-```{r}
 
-```
 

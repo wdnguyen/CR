@@ -44,6 +44,9 @@ output:
 
 ![](Cats_files/figure-html/IsotopeBivariate-1.png)<!-- -->
 
+# Piper Diagram of Streamwater and Endmembers
+![Piper Diagram](https://github.com/wdnguyen/CR/blob/master/piper1.png?raw=true "Piper Diagram")
+
 
 # ICPMS Time Series 
 
@@ -60,7 +63,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fb9c899c790>
+## <seaborn.axisgrid.PairGrid object at 0x7f94391c4250>
 ```
 
 ![](Cats_files/figure-html/chem1-1.png)<!-- -->
@@ -71,7 +74,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fb9c0054990>
+## <seaborn.axisgrid.PairGrid object at 0x7f9409667510>
 ```
 
 ![](Cats_files/figure-html/chem2-1.png)<!-- -->
@@ -82,7 +85,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fb9a89a3210>
+## <seaborn.axisgrid.PairGrid object at 0x7f93d84eba50>
 ```
 
 ![](Cats_files/figure-html/chem3-1.png)<!-- -->
@@ -93,7 +96,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fb9b9563f10>
+## <seaborn.axisgrid.PairGrid object at 0x7f94391d4c90>
 ```
 
 ![](Cats_files/figure-html/chem4-1.png)<!-- -->
@@ -105,7 +108,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fb9c84a8a50>
+## <seaborn.axisgrid.PairGrid object at 0x7f9400339ad0>
 ```
 
 ![](Cats_files/figure-html/chem5-1.png)<!-- -->
@@ -118,4 +121,6 @@ output:
 This is how you dropdown.
 </details>
 -->
+
+
 
