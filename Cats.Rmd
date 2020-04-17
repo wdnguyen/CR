@@ -382,11 +382,15 @@ biv
 ```
 
 # Piper Diagram of Streamwater and Endmembers
-![Piper Diagram](https://github.com/wdnguyen/CR/blob/master/piper1.png?raw=true "Piper Diagram")
+![Piper Diagram](https://github.com/wdnguyen/CR/blob/master/piper2.png?raw=true "Piper Diagram")
 
 
 # Gibbs Diagram
 ![Frankenstein Gibbs Diagram --- Will Update!!!](https://github.com/wdnguyen/CR/blob/master/gibbs1.png?raw=true "Gibbs Diagram")
+
+
+# Time Series of Base Cations Over 48 Hours
+![Time Series of Base Cations Over 48 Hours](https://github.com/wdnguyen/CR/blob/master/basecations.png?raw=true "Base Cations")
 
 
 # ICPMS Time Series 
@@ -431,7 +435,7 @@ melt_df1b <- melt(df1b, id="Element")
 df1a_plot <- ggplot(melt_df1a, aes(fill=variable, y=value, x=Element)) +
   geom_bar(position="stack", stat="identity") +
 #   scale_fill_viridis(discrete = T) +
-  scale_fill_manual(values=c("red", "blue")) +
+  scale_fill_manual(values=c("blue", "red")) +
   theme_few() +
   xlab("") +
   ylab("Mass Load (g)") +
@@ -440,7 +444,7 @@ df1a_plot <- ggplot(melt_df1a, aes(fill=variable, y=value, x=Element)) +
 df1b_plot <- ggplot(melt_df1b, aes(fill=variable, y=value, x=Element)) +
   geom_bar(position="stack", stat="identity") +
 #  scale_fill_viridis(discrete = T) +
-  scale_fill_manual(values=c("red", "blue")) +
+  scale_fill_manual(values=c("blue", "red")) +
   theme_few() +
   xlab("") +
   ylab("Mass Load (g)")
