@@ -25,7 +25,7 @@ library(blockTools)
 library(ggstatsplot)
 library(lattice)
 library(viridis)
-
+library(cowplot)
 # Utility functions (pretty graphs)
 source("MyUtils.R")
 ```
@@ -187,11 +187,11 @@ oxygen_plot <- ggplot() +
   geom_line(data = DownI, aes(x=Date_Time, y=Oxygen, colour="HMD")) +
   geom_point(data = DownI, aes(x=Date_Time, y=Oxygen, colour="HMD")) +
   geom_hline(yintercept = -6.49, linetype=2) + 
-  # annotate("text", x=as.Date(7/8/18 1:50), -6.49, vjust = -1, label = "Well 200") +
+#  annotate("text", x=as.Date(7/8/18 1:50), -6.49, vjust = -1, label = "Well 200") +
   geom_hline(yintercept = -4.68, linetype=2) + 
-  # annotate("text", 0.9*max(upstream_data$knappett_dates), -4.68, vjust = -1, label = "Well 205") +
+#  annotate("text", 0.9*max(upstream_data$knappett_dates), -4.68, vjust = -1, label = "Well 205") +
   geom_hline(yintercept = -3.21, linetype=3) + 
-  # annotate("text", 0.9*max(upstream_data$knappett_dates), -3.21, vjust = 1.5, label = "Rain") +
+#  annotate("text", 0.9*max(upstream_data$knappett_dates), -3.21, vjust = 1.5, label = "Rain") +
   theme_few() +
   scale_color_manual("",
                      breaks = c("HMU", "HMD"),
@@ -300,6 +300,8 @@ rain_plot + Qplot + oxygen_plot + deuterium_plot + plot_layout(ncol=1, heights=c
 
 ```{r Wells, fig.width=10,fig.height=5, echo=FALSE, warning=FALSE, message=FALSE}
 
+Q2plot <- Qplot + theme(legend.position="right")
+
 swh_plot <- ggplot(data = well_melt, aes(x = Date, y = SWH, color = Well, group = Well)) +
   geom_line() +
   theme_few() +
@@ -316,7 +318,8 @@ swh_plot <- ggplot(data = well_melt, aes(x = Date, y = SWH, color = Well, group 
   scale_colour_Publication_WN()
   # scale_color_manual(values=c("#0072B2", "#D55E00", "#009E73", "#CC79A7"))
 
-rain_plot+ Qplot + swh_plot + plot_layout(ncol=1, heights=c(1,2,2))
+rain_plot+ Q2plot + swh_plot + plot_layout(ncol=1, heights=c(1,2,2))
+# plot_grid(rain_plot, Q2plot, swh_plot, labels = c("A","B","C"), nrow=3)
 ```
 
 # Stable water isotope bivariate plot with GMWL
@@ -393,7 +396,7 @@ up_icpms_plot <- ggplot(data = up_melt, aes(x = Seconds, y = Concentration, colo
         legend.title=element_blank()) +
   xlab("Time Elapsed (s)") +
   ylab(expression(paste(
-  "Concentration (",
+  "Mass Rate (",
   mu, g, "/", s,
   ")", sep="")))
 
@@ -420,7 +423,8 @@ melt_df1b <- melt(df1b, id="Element")
 
 df1a_plot <- ggplot(melt_df1a, aes(fill=variable, y=value, x=Element)) +
   geom_bar(position="stack", stat="identity") +
-  scale_fill_viridis(discrete = T) +
+#   scale_fill_viridis(discrete = T) +
+  scale_fill_manual(values=c("red", "blue")) +
   theme_few() +
   xlab("") +
   ylab("Mass Load (g)") +
@@ -428,13 +432,15 @@ df1a_plot <- ggplot(melt_df1a, aes(fill=variable, y=value, x=Element)) +
 
 df1b_plot <- ggplot(melt_df1b, aes(fill=variable, y=value, x=Element)) +
   geom_bar(position="stack", stat="identity") +
-  scale_fill_viridis(discrete = T) +
+#  scale_fill_viridis(discrete = T) +
+  scale_fill_manual(values=c("red", "blue")) +
   theme_few() +
   xlab("") +
   ylab("Mass Load (g)")
 # removed B because masses were too big
 
-df1a_plot+ df1b_plot+ plot_layout(ncol=2, widths = c(6,6.2))
+# df1a_plot+ df1b_plot+ plot_layout(ncol=2, widths = c(6,6.2))
+plot_grid(df1a_plot, df1b_plot, labels = c("A","B")) # cowplot
 ```
 
 
@@ -512,4 +518,8 @@ plt.show()
 This is how you dropdown.
 </details>
 -->
+
+```{r}
+
+```
 
