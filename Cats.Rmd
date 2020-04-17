@@ -385,6 +385,10 @@ biv
 ![Piper Diagram](https://github.com/wdnguyen/CR/blob/master/piper1.png?raw=true "Piper Diagram")
 
 
+# Gibbs Diagram
+![Frankenstein Gibbs Diagram --- Will Update!!!](https://github.com/wdnguyen/CR/blob/master/gibbs1.png?raw=true "Gibbs Diagram")
+
+
 # ICPMS Time Series 
 
 ```{r ICPMS, echo=FALSE}

@@ -48,6 +48,10 @@ output:
 ![Piper Diagram](https://github.com/wdnguyen/CR/blob/master/piper1.png?raw=true "Piper Diagram")
 
 
+# Gibbs Diagram
+![Frankenstein Gibbs Diagram --- Will Update!!!](https://github.com/wdnguyen/CR/blob/master/gibbs1.png?raw=true "Gibbs Diagram")
+
+
 # ICPMS Time Series 
 
 ![](Cats_files/figure-html/ICPMS-1.png)<!-- -->
@@ -63,7 +67,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7f94391c4250>
+## <seaborn.axisgrid.PairGrid object at 0x7fc3c84ee9d0>
 ```
 
 ![](Cats_files/figure-html/chem1-1.png)<!-- -->
@@ -74,7 +78,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7f9409667510>
+## <seaborn.axisgrid.PairGrid object at 0x7fc3a814b810>
 ```
 
 ![](Cats_files/figure-html/chem2-1.png)<!-- -->
@@ -85,7 +89,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7f93d84eba50>
+## <seaborn.axisgrid.PairGrid object at 0x7fc3e8969650>
 ```
 
 ![](Cats_files/figure-html/chem3-1.png)<!-- -->
@@ -96,7 +100,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7f94391d4c90>
+## <seaborn.axisgrid.PairGrid object at 0x7fc3fcae9bd0>
 ```
 
 ![](Cats_files/figure-html/chem4-1.png)<!-- -->
@@ -108,7 +112,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7f9400339ad0>
+## <seaborn.axisgrid.PairGrid object at 0x7fc3fa348610>
 ```
 
 ![](Cats_files/figure-html/chem5-1.png)<!-- -->
