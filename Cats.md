@@ -75,10 +75,10 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fee59766b10>
+## <seaborn.axisgrid.PairGrid object at 0x7fb869426c50>
 ```
 
-![](Cats_files/figure-html/chem1-1.png)<!-- -->
+<img src="Cats_files/figure-html/chem1-1.png" width="1056" />
 </details>
 
 <details>
@@ -86,10 +86,10 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fee28639f10>
+## <seaborn.axisgrid.PairGrid object at 0x7fb838d48910>
 ```
 
-![](Cats_files/figure-html/chem2-1.png)<!-- -->
+<img src="Cats_files/figure-html/chem2-1.png" width="1056" />
 </details>
 
 <details>
@@ -97,10 +97,10 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fee280d84d0>
+## <seaborn.axisgrid.PairGrid object at 0x7fb8488da110>
 ```
 
-![](Cats_files/figure-html/chem3-1.png)<!-- -->
+<img src="Cats_files/figure-html/chem3-1.png" width="576" />
 </details>
 
 <details>
@@ -108,10 +108,10 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fee50d795d0>
+## <seaborn.axisgrid.PairGrid object at 0x7fb8587fff50>
 ```
 
-![](Cats_files/figure-html/chem4-1.png)<!-- -->
+<img src="Cats_files/figure-html/chem4-1.png" width="2016" />
 </details>
 
 
@@ -120,10 +120,10 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fee59b4b450>
+## <seaborn.axisgrid.PairGrid object at 0x7fb8696fa290>
 ```
 
-![](Cats_files/figure-html/chem5-1.png)<!-- -->
+<img src="Cats_files/figure-html/chem5-1.png" width="1056" />
 </details>
 
 <!--

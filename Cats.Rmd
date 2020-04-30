@@ -26,6 +26,13 @@ library(ggstatsplot)
 library(lattice)
 library(viridis)
 library(cowplot)
+
+if(!require(pacman))install.packages("pacman")
+pacman::p_load('dplyr','tidyr','gapminder','ggplot2','ggalt',
+               'forcats','R.utils', 'png', 'grid','ggpubr', 'scales', 'bbplot')
+
+devtools::install_github('bbc/bbplot')
+
 # Utility functions (pretty graphs)
 source("MyUtils.R")
 ```
@@ -187,10 +194,37 @@ oxygen_plot <- ggplot() +
   geom_line(data = DownI, aes(x=Date_Time, y=Oxygen, colour="HMD")) +
   geom_point(data = DownI, aes(x=Date_Time, y=Oxygen, colour="HMD")) +
   geom_hline(yintercept = -6.49, linetype=2) + 
+  geom_label(aes(x = as.POSIXct('07/06/2018 18:00',format ="%m/%d/%Y %H:%M"), y=-6.49, label = "200"),
+             hjust = 0.5,
+             vjust = 0.5,
+             lineheight = 0.8,
+             colour = "#555555",
+             fill = "white",
+             label.size = NA,
+             family = "Helvetica",
+             size = 3) +
 #  annotate("text", x=as.Date(7/8/18 1:50), -6.49, vjust = -1, label = "Well 200") +
   geom_hline(yintercept = -4.68, linetype=2) + 
+  geom_label(aes(x = as.POSIXct('07/06/2018 18:00',format ="%m/%d/%Y %H:%M"), y=-4.68, label = "205"),
+             hjust = 0.5,
+             vjust = 0.5,
+             lineheight = 0.8,
+             colour = "#555555",
+             fill = "white",
+             label.size = NA,
+             family = "Helvetica",
+             size = 3) +
 #  annotate("text", 0.9*max(upstream_data$knappett_dates), -4.68, vjust = -1, label = "Well 205") +
-  geom_hline(yintercept = -3.21, linetype=3) + 
+  geom_hline(yintercept = -3.21, linetype=3) +
+  geom_label(aes(x = as.POSIXct('07/06/2018 18:00',format ="%m/%d/%Y %H:%M"), y=-3.21, label = "Rain"),
+             hjust = 0.5,
+             vjust = 0.5,
+             lineheight = 0.8,
+             colour = "#555555",
+             fill = "white",
+             label.size = NA,
+             family = "Helvetica",
+             size = 3) +
 #  annotate("text", 0.9*max(upstream_data$knappett_dates), -3.21, vjust = 1.5, label = "Rain") +
   theme_few() +
   scale_color_manual("",
@@ -437,7 +471,7 @@ melt_df1b <- melt(df1b, id="Element")
 #~~~~~~~~~~~~~~~~~~~#
 
 df1a_plot <- ggplot(melt_df1a, aes(fill=variable, y=value, x=Element)) +
-  geom_bar(position="stack", stat="identity") +
+  geom_bar(position="dodge", stat="identity") +
 #   scale_fill_viridis(discrete = T) +
   scale_fill_manual(values=c("blue", "red")) +
   theme_few() +
@@ -446,7 +480,7 @@ df1a_plot <- ggplot(melt_df1a, aes(fill=variable, y=value, x=Element)) +
   theme(legend.position = "none")
 
 df1b_plot <- ggplot(melt_df1b, aes(fill=variable, y=value, x=Element)) +
-  geom_bar(position="stack", stat="identity") +
+  geom_bar(position="dodge", stat="identity") +
 #  scale_fill_viridis(discrete = T) +
   scale_fill_manual(values=c("blue", "red")) +
   theme_few() +
