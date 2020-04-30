@@ -431,6 +431,9 @@ biv
 ![Time Series of Trace Elements Over 48 Hours](https://github.com/wdnguyen/CR/blob/master/traceelements.png?raw=true "Trace Elements 1")
 
 
+# Time Series of Carbon and Nitrogen Species Over 48 Hours
+![Time Series of Carbon and Nitrogen Species Over 48 Hours](https://github.com/wdnguyen/CR/blob/master/CN_timeseries.png?raw=true "CN")
+
 # ICPMS Time Series 
 
 ```{r ICPMS, echo=FALSE}

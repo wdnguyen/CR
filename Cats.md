@@ -60,6 +60,9 @@ output:
 ![Time Series of Trace Elements Over 48 Hours](https://github.com/wdnguyen/CR/blob/master/traceelements.png?raw=true "Trace Elements 1")
 
 
+# Time Series of Carbon and Nitrogen Species Over 48 Hours
+![Time Series of Carbon and Nitrogen Species Over 48 Hours](https://github.com/wdnguyen/CR/blob/master/CN_timeseries.png?raw=true "CN")
+
 # ICPMS Time Series 
 
 ![](Cats_files/figure-html/ICPMS-1.png)<!-- -->
@@ -75,7 +78,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fb869426c50>
+## <seaborn.axisgrid.PairGrid object at 0x7fe7807f6e90>
 ```
 
 <img src="Cats_files/figure-html/chem1-1.png" width="1056" />
@@ -86,7 +89,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fb838d48910>
+## <seaborn.axisgrid.PairGrid object at 0x7fe77051cf50>
 ```
 
 <img src="Cats_files/figure-html/chem2-1.png" width="1056" />
@@ -97,7 +100,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fb8488da110>
+## <seaborn.axisgrid.PairGrid object at 0x7fe7a22f1e10>
 ```
 
 <img src="Cats_files/figure-html/chem3-1.png" width="576" />
@@ -108,7 +111,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fb8587fff50>
+## <seaborn.axisgrid.PairGrid object at 0x7fe780b18550>
 ```
 
 <img src="Cats_files/figure-html/chem4-1.png" width="2016" />
@@ -120,7 +123,7 @@ output:
 <br>
 
 ```
-## <seaborn.axisgrid.PairGrid object at 0x7fb8696fa290>
+## <seaborn.axisgrid.PairGrid object at 0x7fe7b05f9890>
 ```
 
 <img src="Cats_files/figure-html/chem5-1.png" width="1056" />
