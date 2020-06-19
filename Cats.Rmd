@@ -439,26 +439,6 @@ biv
 # Time Series of Carbon and Nitrogen Species Over 48 Hours
 ![Time Series of Carbon and Nitrogen Species Over 48 Hours](https://github.com/wdnguyen/CR/blob/master/CN_timeseries.png?raw=true "CN")
 
-# ICPMS Time Series 
-
-```{r ICPMS, echo=FALSE}
-up_icpms_plot <- ggplot(data = up_melt, aes(x = Seconds, y = Concentration, color = Element, group = Element)) +
-  geom_line() +
-  theme_few() +
-   theme(plot.title = element_text(hjust = 0.5),
-        text=element_text(size=20),
-        legend.position="right",
-        axis.text.y = element_text(colour="black", size=18),
-        axis.text.x = element_text(colour="black"),
-        legend.title=element_blank()) +
-  xlab("Time Elapsed (s)") +
-  ylab(expression(paste(
-  "Mass Rate (",
-  mu, g, "/", s,
-  ")", sep="")))
-
-up_icpms_plot
-```
 
 # Mass Loads Over 48 Hours: Trace Elements
 ```{r elementalloads, echo=FALSE, fig.width=12}
@@ -498,6 +478,12 @@ df1b_plot <- ggplot(melt_df1b, aes(fill=variable, y=value, x=Element)) +
 
 # df1a_plot+ df1b_plot+ plot_layout(ncol=2, widths = c(6,6.2))
 plot_grid(df1a_plot, df1b_plot, labels = c("A","B")) # cowplot
+```
+
+# Violin Plots
+```{r Violin Plots}
+DF = melt(cats, id.vars = c("ID", "Site", "Source"),
+          measure.vars = c("Temp","NH3_f","D"))
 ```
 
 
