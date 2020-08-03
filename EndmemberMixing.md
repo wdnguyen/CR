@@ -12,7 +12,7 @@ output:
 - **Endmembers**: US, Soil, Rain 
 - For this first run of analyses, I'm plotting the raw, unfiltered values. In later analyses, I will account for inplausibility (i.e., 0 > fractions > 1 ). Enjoy!
 
-A) $Cl,~\delta D$
+A) <img src="https://render.githubusercontent.com/render/math?math=Cl,~\delta D">
 ![](https://github.com/wdnguyen/CR/blob/master/mcfigs_test/ClD.gif?raw=true "A")
 
 B) $Cl,~\delta^{18}O$
