@@ -39,7 +39,7 @@ F) <img src="https://render.githubusercontent.com/render/math?math=\delta^{18}, 
 ##### Ternary diagrams:
 
 ### Mixing batch 2
-- **Batch**: US, DS
+- **Batch**: US
 - **Endmembers**: Spring, Soil, Rain 
 
 ##### Ternary diagrams:
