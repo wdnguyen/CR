@@ -72,7 +72,7 @@ import seaborn as sns
 isotopes <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/knappett_isotopes.csv")
 rain <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/DownstreamMiller.csv")
 
-isotopes$Date_Time <- as.POSIXct(isotopes$Date, format = "%m/%d/%y %H:%M")
+isotopes$Date <- as.POSIXct(isotopes$Date_Time, format = "%m/%d/%y %H:%M")
 rain$Date <- as.POSIXct(rain$Date, format ="%m/%d/%y %H:%M")
 
 UpI <- subset(isotopes, Site == "Upstream")
@@ -84,7 +84,7 @@ isotopes2 <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/isot
 global_precipitation <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/global_precipitation.csv", stringsAsFactors = FALSE) #GMWL
 global_stream <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/global_stream.csv", stringsAsFactors = FALSE)
 
-isotopes2$Date_Time <- as.POSIXct(isotopes2$Date_Time, format = "%m/%d/%y %H:%M")
+isotopes2$Date <- as.POSIXct(isotopes2$Date, format = "%m/%d/%y %H:%M")
 
 rain_data <- subset(isotopes2, Type == "Precipitation")
 stream_data <- subset(isotopes2, Location == "Weir")
