@@ -38,7 +38,7 @@ pacman::p_load('dplyr','tidyr','gapminder','ggplot2','ggalt',
 # Utility functions (pretty graphs)
 source("MyUtils.R")
 
-df <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/CostaRica_Chemistry_20200518.csv", na.strings = "BDL", stringsAsFactors = FALSE)
+df <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/CostaRica_Chemistry_20200920.csv", na.strings = "BDL", stringsAsFactors = FALSE)
 # could also use df[df == "BDL"] <- NA
 
 df$SamplingDate <- as.POSIXct(df$SamplingDate, format = "%m/%d/%Y %H:%M")
@@ -63,16 +63,38 @@ The hard part, plotting the boxplots ....
 ```{r}
 df <- dplyr::mutate_if(tibble::as_tibble(df), 
                        is.character, 
-                       stringr::str_replace_all, pattern = "Upstream", replacement = "Up")
+                       stringr::str_replace_all, pattern = "Upstream", replacement = "US")
 
 df <- dplyr::mutate_if(tibble::as_tibble(df), 
                        is.character, 
-                       stringr::str_replace_all, pattern = "Downstream", replacement = "Down")
+                       stringr::str_replace_all, pattern = "Downstream", replacement = "DS")
 
 # Setting in certain order
 df$Site <- factor(df$Site,
-                    levels=c("Rain", "Soil", "Spring", "Up", "Down"))
+                    levels=c("US", "DS","Soil","Spring","Rain"))
 
+# Wrapping some old code in an unused function:
+# .f = function() {}
+
+conservative <- df %>%
+  select(ID, Site, Source, O18, D, SO4, Cl) %>%
+  gather(Species, Concentration, O18:Cl)
+
+bases <- df %>%
+  select(ID, Site, Source, Na_IC, K_IC, Mg_IC, Ca_IC) %>%
+  gather(Species, Concentration, Na_IC:Ca_IC)
+
+nutrients <- df %>%
+  select(ID, Site, Source, AlkalinityW, DOC, NO3, NO2, NO3_f, NH3_f) %>%
+  gather(Species, Concentration, AlkalinityW:NH3_f)
+
+redox <- df %>%
+  select(ID, Site, Source, ORP, H2S_f, Fe, Mn) %>%
+  gather(Species, Concentration, ORP:Mn)
+
+
+  
+.f = function() {
 unbracketed <- df %>%
   select(ID, Site, Source, SPCOND, pH, ORP, AlkalinityW, Fl, NO2, NO3, Na_IC, Mo, Si, P, Cr, Ti, B, Sr, Sr2, Ba, K, As, Na, Mg) %>%
   gather(Species, Concentration, SPCOND:Mg) 
@@ -97,70 +119,52 @@ neutral <- df %>%
   select(ID, Site, Source, DOC, TDN, TotalNField, Li, Ca_IC, Cd, Sb, Pb, U, Al, S, Ca, Co, Cu) %>%
 gather(Species, Concentration, DOC:Cu) 
 
+}
+
 ################
 
 theme_ex = labs(y=expression(Concentration~(mg~L^{-1}))) +
   theme(axis.title.x = element_blank()) +
   theme_bw()
 
-unbracketed_plot <- ggplot(unbracketed, aes(x=Site, y=Concentration, fill=Site)) + 
+conservative_plot <- ggplot(conservative, aes(x=Site, y=Concentration, fill=Site)) + 
   geom_boxplot() +
-  facet_wrap(~Species, scale = "free") +
+  facet_wrap(~Species, scale = "free", nrow = 1) +
+  labs(y=expression(Concentration~(mg~L^{-1}))) +
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank()) +
+  theme_bw() +
+  scale_fill_manual(values = c(usc, dsc, soilc, springc, rainc))
+
+bases_plot <- ggplot(bases, aes(x=Site, y=Concentration, fill=Site)) + 
+  geom_boxplot() +
+  facet_wrap(~Species, scale = "free", nrow = 1) +
+  labs(y=expression(Concentration~(mg~L^{-1}))) +
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank()) +
+  theme_bw() +
+  scale_fill_manual(values = c(usc, dsc, soilc, springc, rainc))
+
+nutrients_plot <- ggplot(nutrients, aes(x=Site, y=Concentration, fill=Site)) + 
+  geom_boxplot() +
+  facet_wrap(~Species, scale = "free", nrow = 1) +
   labs(y=expression(Concentration~(mg~L^{-1}))) +
   theme(axis.title.x = element_blank()) +
   theme_bw() +
-  scale_fill_manual(values = c("magenta", "green", "yellow", "blue", "red"))
+  scale_fill_manual(values = c(usc, dsc, soilc, springc, rainc))
 
-bracketed_plot <- ggplot(bracketed, aes(x=Site, y=Concentration, fill=Site)) + 
+redox_plot <- ggplot(redox, aes(x=Site, y=Concentration, fill=Site)) + 
   geom_boxplot() +
-  facet_wrap(~Species, scale = "free") +
+  facet_wrap(~Species, scale = "free", nrow = 1) +
   labs(y=expression(Concentration~(mg~L^{-1}))) +
-  theme(axis.title.x = element_blank()) +
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank()) +
   theme_bw() +
-  scale_fill_manual(values = c("magenta", "green", "yellow", "blue", "red"))
+  scale_fill_manual(values = c(usc, dsc, soilc, springc, rainc))
 
-u_production_plot <- ggplot(u_production, aes(x=Site, y=Concentration, fill=Site)) + 
-  geom_boxplot() +
-  facet_wrap(~Species, scale = "free") +
-  labs(y=expression(Concentration~(mg~L^{-1}))) +
-  theme(axis.title.x = element_blank()) +
-  theme_bw() +
-  scale_fill_manual(values = c("magenta", "green", "yellow", "blue", "red"))
-
-norprorem_plot <- ggplot(norprorem, aes(x=Site, y=Concentration, fill=Site)) + 
-  geom_boxplot() +
-  facet_wrap(~Species, scale = "free") +
-  labs(y=expression(Concentration~(mg~L^{-1}))) +
-  theme(axis.title.x = element_blank()) +
-  theme_bw() +
-  scale_fill_manual(values = c("magenta", "green", "yellow", "blue", "red"))
-
-u_removal_plot <- ggplot(u_removal, aes(x=Site, y=Concentration, fill=Site)) + 
-  geom_boxplot() +
-  facet_wrap(~Species, scale = "free") +
-  labs(y=expression(Concentration~(mg~L^{-1}))) +
-  theme(axis.title.x = element_blank()) +
-  theme_bw() +
-  scale_fill_manual(values = c("magenta", "green", "yellow", "blue", "red"))
-
-neutral_plot <- ggplot(neutral, aes(x=Site, y=Concentration, fill=Site)) + 
-  geom_boxplot() +
-  facet_wrap(~Species, scale = "free") +
-  labs(y=expression(Concentration~(mg~L^{-1}))) +
-  theme(axis.title.x = element_blank()) +
-  theme_bw() +
-  scale_fill_manual(values = c("magenta", "green", "yellow", "blue", "red"))
-
-# ggsave(file = "unbracketed.svg", plot = unbracketed_plot, width = 12, height = 8)
-# ggsave(file = "bracketed.svg", plot = bracketed_plot, width = 12, height = 8)
-# ggsave(file = "u_production_plot.svg", plot = u_production_plot, width = 12, height = 8)
-# ggsave(file = "u_removal_plot.svg", plot = u_removal_plot, width = 12, height = 8)
-# ggsave(file = "neutral_plot.svg", plot = neutral_plot, width = 12, height = 8)
-
-ggsave(file = "unbracketed.png", plot = unbracketed_plot, width = 12, height = 8, dpi = 300)
-ggsave(file = "bracketed.png", plot = bracketed_plot, width = 12, height = 8, dpi = 300)
-ggsave(file = "u_production_plot.png", plot = u_production_plot, width = 12, height = 8, dpi = 300)
-ggsave(file = "u_removal_plot.png", plot = u_removal_plot, width = 12, height = 8, dpi = 300)
-ggsave(file = "neutral_plot.png", plot = neutral_plot, width = 12, height = 8, dpi = 300)
+ggsave(file = "conservative.pdf", plot = conservative_plot, width = 6, height = 3, dpi = 600)
+ggsave(file = "bases.pdf", plot = bases_plot, width = 6, height = 3, dpi = 600)
+ggsave(file = "nutrients_plot.pdf", plot = nutrients_plot, width = 10, height = 3, dpi = 600)
+ggsave(file = "redox_plot.pdf", plot = redox_plot, width = 6, height = 3, dpi = 600)
 ```
 
