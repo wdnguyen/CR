@@ -44,6 +44,9 @@ df <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/CostaRica_C
 df$SamplingDate <- as.POSIXct(df$SamplingDate, format = "%m/%d/%Y %H:%M")
 df$Chemetrics_Acidified_Date <- as.POSIXct(df$Chemetrics_Acidified_Date, format = "%m/%d/%Y %H:%M")
 
+
+# Setting font size for all figures
+# theme_update(text = element_text(size = 28, family = 'Arial'))
 ```
 
 
@@ -61,6 +64,10 @@ dsc <- rgb(0.06,0.22,0.67) # blue
 The hard part, plotting the boxplots ....
 
 ```{r}
+
+df <- df[format(df$SamplingDate, '%Y') != "2019", ] # comment this out if you want 2019 data included
+df <- df[format(df$Fe)]
+
 df <- dplyr::mutate_if(tibble::as_tibble(df), 
                        is.character, 
                        stringr::str_replace_all, pattern = "Upstream", replacement = "US")
@@ -71,14 +78,18 @@ df <- dplyr::mutate_if(tibble::as_tibble(df),
 
 # Setting in certain order
 df$Site <- factor(df$Site,
-                    levels=c("US", "DS","Soil","Spring","Rain"))
+                    levels=c("US","Soil","Spring","Rain","DS"))
 
 # Wrapping some old code in an unused function:
 # .f = function() {}
 
 conservative <- df %>%
-  select(ID, Site, Source, O18, D, SO4, Cl) %>%
-  gather(Species, Concentration, O18:Cl)
+  select(ID, Site, Source, SO4, Cl) %>%
+  gather(Species, Concentration, SO4:Cl)
+
+stable <- df %>%
+  select(ID, Site, Source, O18, D) %>%
+  gather(Species, Concentration, O18:D)
 
 bases <- df %>%
   select(ID, Site, Source, Na_IC, K_IC, Mg_IC, Ca_IC) %>%
@@ -89,11 +100,14 @@ nutrients <- df %>%
   gather(Species, Concentration, AlkalinityW:NH3_f)
 
 redox <- df %>%
-  select(ID, Site, Source, ORP, H2S_f, Fe, Mn) %>%
-  gather(Species, Concentration, ORP:Mn)
+  select(ID, Site, Source, ORP, H2S_f) %>%
+  gather(Species, Concentration, ORP:H2S_f)
+
+redox2 <- df %>%
+  select(ID, Site, Source, Fe, Mn) %>%
+  gather(Species, Concentration, Fe:Mn)
 
 
-  
 .f = function() {
 unbracketed <- df %>%
   select(ID, Site, Source, SPCOND, pH, ORP, AlkalinityW, Fl, NO2, NO3, Na_IC, Mo, Si, P, Cr, Ti, B, Sr, Sr2, Ba, K, As, Na, Mg) %>%
@@ -129,42 +143,95 @@ theme_ex = labs(y=expression(Concentration~(mg~L^{-1}))) +
 
 conservative_plot <- ggplot(conservative, aes(x=Site, y=Concentration, fill=Site)) + 
   geom_boxplot() +
-  facet_wrap(~Species, scale = "free", nrow = 1) +
+  facet_wrap(~Species, scales = "free", nrow = 1) +
   labs(y=expression(Concentration~(mg~L^{-1}))) +
-  theme(axis.title.x = element_blank(),
-        axis.text.x = element_blank()) +
-  theme_bw() +
-  scale_fill_manual(values = c(usc, dsc, soilc, springc, rainc))
+  theme_bw() + 
+  theme(strip.text = element_text(size = 24, family = 'sans'),
+        axis.text = element_text(size = 24, family = 'sans'),
+        axis.text.x = element_text(size = 18, family = 'sans', colour = 'black'),
+        axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+        axis.title.y = element_text(size = 24, family = 'sans'),
+        legend.text = element_text(size = 24, family = 'sans'),
+        legend.title = element_text(size = 24, family = 'sans')) +
+  scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+
+stable_plot <- ggplot(stable, aes(x=Site, y=Concentration, fill=Site)) + 
+  geom_boxplot() +
+  facet_wrap(~Species, scales = "free", nrow = 1) +
+  labs(y=expression("(‰)")) +
+  theme_bw() + 
+  theme(strip.text = element_text(size = 24, family = 'sans'),
+        axis.text = element_text(size = 24, family = 'sans'),
+        axis.text.x = element_text(size = 18, family = 'sans', colour = 'black'),
+        axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+        axis.title.y = element_text(size = 24, family = 'sans'),
+        legend.text = element_text(size = 24, family = 'sans'),
+        legend.title = element_text(size = 24, family = 'sans')) +
+  scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
 
 bases_plot <- ggplot(bases, aes(x=Site, y=Concentration, fill=Site)) + 
   geom_boxplot() +
-  facet_wrap(~Species, scale = "free", nrow = 1) +
+  facet_wrap(~Species, scales = "free", nrow = 1) +
   labs(y=expression(Concentration~(mg~L^{-1}))) +
-  theme(axis.title.x = element_blank(),
-        axis.text.x = element_blank()) +
   theme_bw() +
-  scale_fill_manual(values = c(usc, dsc, soilc, springc, rainc))
+  theme(strip.text = element_text(size = 24, family = 'sans'),
+        axis.text = element_text(size = 24, family = 'sans'),
+        axis.text.x = element_text(size = 18, family = 'sans', colour = 'black'),
+        axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+        axis.title.y = element_text(size = 24, family = 'sans'),
+        legend.text = element_text(size = 24, family = 'sans'),
+        legend.title = element_text(size = 24, family = 'sans')) +
+  scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
 
 nutrients_plot <- ggplot(nutrients, aes(x=Site, y=Concentration, fill=Site)) + 
   geom_boxplot() +
-  facet_wrap(~Species, scale = "free", nrow = 1) +
+  facet_wrap(~Species, scales = "free", nrow = 1) +
   labs(y=expression(Concentration~(mg~L^{-1}))) +
-  theme(axis.title.x = element_blank()) +
   theme_bw() +
-  scale_fill_manual(values = c(usc, dsc, soilc, springc, rainc))
+  theme(strip.text = element_text(size = 24, family = 'sans'),
+        axis.text = element_text(size = 24, family = 'sans'),
+        axis.text.x = element_text(size = 18, family = 'sans', colour = 'black'),
+        axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+        axis.title.y = element_text(size = 24, family = 'sans'),
+        legend.text = element_text(size = 24, family = 'sans'),
+        legend.title = element_text(size = 24, family = 'sans')) +
+  scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
 
 redox_plot <- ggplot(redox, aes(x=Site, y=Concentration, fill=Site)) + 
   geom_boxplot() +
-  facet_wrap(~Species, scale = "free", nrow = 1) +
+  facet_wrap(~Species, scales = "free", nrow = 1) +
   labs(y=expression(Concentration~(mg~L^{-1}))) +
-  theme(axis.title.x = element_blank(),
-        axis.text.x = element_blank()) +
   theme_bw() +
-  scale_fill_manual(values = c(usc, dsc, soilc, springc, rainc))
+  theme(strip.text = element_text(size = 24, family = 'sans'),
+        axis.text = element_text(size = 24, family = 'sans'),
+        axis.text.x = element_text(size = 18, family = 'sans', colour = 'black'),
+        axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+        axis.title.y = element_text(size = 24, family = 'sans'),
+        legend.text = element_text(size = 24, family = 'sans'),
+        legend.title = element_text(size = 24, family = 'sans')) +
+  scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
 
-ggsave(file = "conservative.pdf", plot = conservative_plot, width = 6, height = 3, dpi = 600)
-ggsave(file = "bases.pdf", plot = bases_plot, width = 6, height = 3, dpi = 600)
-ggsave(file = "nutrients_plot.pdf", plot = nutrients_plot, width = 10, height = 3, dpi = 600)
-ggsave(file = "redox_plot.pdf", plot = redox_plot, width = 6, height = 3, dpi = 600)
+
+redox2_plot <- ggplot(redox2, aes(x=Site, y=Concentration, fill=Site)) + 
+  geom_boxplot() +
+  facet_wrap(~Species, scales = "free", nrow = 1) +
+  labs(y=expression(Concentration~(log(ppb)))) +
+  theme_bw() +
+  theme(strip.text = element_text(size = 24, family = 'sans'),
+        axis.text = element_text(size = 24, family = 'sans'),
+        axis.text.x = element_text(size = 18, family = 'sans', colour = 'black'),
+        axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+        axis.title.y = element_text(size = 24, family = 'sans'),
+        legend.text = element_text(size = 24, family = 'sans'),
+        legend.title = element_text(size = 24, family = 'sans')) +
+  scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc)) +
+  scale_y_log10()
+
+ggsave(file = "conservative_2018.pdf", plot = conservative_plot, width = 10.25, height = 4, dpi = 600)
+ggsave(file = "stable_2018.pdf", plot = stable_plot, width = 10.25, height = 4, dpi = 600)
+ggsave(file = "bases_plot_2018.pdf", plot = bases_plot, width = 17, height = 4, dpi = 600)
+ggsave(file = "nutrients_plot_2018.pdf", plot = nutrients_plot, width = 26, height = 4, dpi = 600)
+ggsave(file = "redox_plot_2018.pdf", plot = redox_plot, width = 10.25, height = 4, dpi = 600)
+ggsave(file = "redox2_plot_2018.pdf", plot = redox2_plot, width = 10.5, height = 4, dpi = 600)
 ```
 
