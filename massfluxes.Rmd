@@ -1,0 +1,59 @@
+---
+title: "MassFluxes_GSA2020"
+author: "William Nguyen"
+date: "10/1/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+ALRIGHT! Let's derive some dang mass fluxes. First, reading in the appropriate packages and csv file for the chemistry data.
+
+```{r}
+library(tidyverse) # godsend: ggplot2, tibble, tidyr, readr, dplyr, purrr, stringr, forcats
+library(dplyr)
+
+df <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/CostaRica_Chemistry_20200920.csv", na.strings = "BDL", stringsAsFactors = FALSE)
+# could also use df[df == "BDL"] <- NA
+
+df$SamplingDate <- as.POSIXct(df$SamplingDate, format = "%m/%d/%Y %H:%M")
+df$Chemetrics_Acidified_Date <- as.POSIXct(df$Chemetrics_Acidified_Date, format = "%m/%d/%Y %H:%M")
+
+# Let's just focus on the 2018 data
+df <- df[format(df$SamplingDate, '%Y') != "2019", ]
+
+# Let's also convert all negative concentrations to NaN
+df <- df %>%
+  mutate_all(funs(replace(., .<0, NA)))
+```
+
+Assigning colors to endmembers and mixes:
+
+```{r RGB colors}
+rainc <- rgb(0.63,0.32,0.18) # sienna
+soilc <- rgb(0.11,0.58,0.08) # green
+springc <- rgb(1,0.71,0.1) # yellow
+usc <- rgb(0.67,0.06,0.06) # red
+dsc <- rgb(0.06,0.22,0.67) # blue
+```
+
+I'm going to quickly attempt a last-desperate attempt at EMMA (pca :( right now).
+
+First, we need to figure out what to do with the missing data. Median replacement? It would be good if I figured out how to replace by endmember group. For now, I will be using a function devloped by someone else:
+
+```{r Installing missing value function}
+# source("dineof.R")
+# http://menugget.blogspot.com/2012/10/dineof-data-interpolating-empirical.html
+# JK didn't work
+```
+
+```{r defining pca}
+# df <- dineof(df)
+df <- df %>% 
+   mutate_all(~ifelse(is.na(.), median(., na.rm = TRUE), .))
+df.pca <- prcomp(df[,c(20:27)], center = TRUE, scale. = TRUE) # let's just try with the base cations, nutrients, and select few elements
+summary(df.pca)
+```
+

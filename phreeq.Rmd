@@ -1,0 +1,43 @@
+---
+title: "phreeqc_test"
+author: "William Nguyen"
+date: "10/2/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## PHREEQC test
+
+Library check....
+
+```{r Packages}
+library(phreeqc)
+```
+
+```{r Example 2}
+
+# loading the phreeqc.dat database
+phrLoadDatabaseString(phreeqc.dat)
+
+# run example 2
+phrRunString(ex2)
+```
+
+```{r retrieving output}
+so <- phrGetSelectedOutput()
+```
+
+```{r Plotting results}
+attach(so$n1)
+title <- "Gypsum-Anhydrite Stability"
+xlabel <- "Temperature, in degrres celcius"
+ylabel <- "Saturation index"
+plot(temp.C., si_gypsum, main = title, xlab = xlabel, ylab = ylabel,
+     col = "darkred", xlim = c(25, 75), ylim = c(-0.4, 0.0))
+points(temp.C., si_anhydrite, col = "darkgreen")
+legend("bottomright", c("Gypsum", "Anhydrite"),
+       col = c("darkred", "darkgreen"), pch = c(1, 1))
+```
