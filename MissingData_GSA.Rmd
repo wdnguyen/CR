@@ -1,0 +1,22 @@
+---
+title: "MissingData"
+author: "William Nguyen"
+date: "10/4/2020"
+output: html_document:
+  keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Imputing missing water quality data in the Howler Monkey Watershed
+
+There's a couple ad-hoc ways of dealing with miss data, such as listwise deletion and mean imputation. Listwise deletion only really works when you have a few missing values and mean imputation brings too much bias to variances and covariances. In this example, I'll be using Amelia to perform multiple imputation, which should give me some probable predictions for my missing values.
+
+In the future, I may want to implement some more robust means of imputation, such as CART, random forest, and artificial neural networks, but I'll save that for the manuscript. 
+
+```{r}
+
+```
+
