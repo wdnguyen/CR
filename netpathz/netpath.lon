@@ -10,17 +10,17 @@
                                                            # Address5
            22.2                                            # Temperature
             7.4                                            # pH
-    1.43297e-22                                            # Dissolved Oxygen
-       0.815736                                            # TDIC
+    1.43298e-22                                            # Dissolved Oxygen
+        0.81575                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.261094                                            # Calcium
        0.476012                                            # Eh
-      0.0843668                                            # Magnesium
-       0.314942                                            # Sodium
+      0.0843667                                            # Magnesium
+       0.314941                                            # Sodium
       0.0802054                                            # Potassium
                                                            # Chloride
-     0.00822419                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -30,7 +30,7 @@
                                                            # Strontium
                                                            # Iron
                                                            # Manganese
-     0.00899625                                            # Nitrate
+     0.00899624                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -62,16 +62,16 @@
            22.2                                            # Temperature
             7.4                                            # pH
     1.43298e-22                                            # Dissolved Oxygen
-       0.787268                                            # TDIC
+       0.787286                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.243553                                            # Calcium
+       0.243552                                            # Calcium
        0.476012                                            # Eh
       0.0800476                                            # Magnesium
-       0.381236                                            # Sodium
-       0.066727                                            # Potassium
+       0.381235                                            # Sodium
+      0.0667269                                            # Potassium
                                                            # Chloride
-      0.0113785                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -113,16 +113,16 @@
            22.2                                            # Temperature
             7.4                                            # pH
     1.43295e-22                                            # Dissolved Oxygen
-        1.00812                                            # TDIC
+        1.00814                                            # TDIC
                                                            # Tritium
                                                            # H2S
          0.2461                                            # Calcium
        0.476012                                            # Eh
-      0.0813646                                            # Magnesium
+      0.0813645                                            # Magnesium
        0.306548                                            # Sodium
       0.0656789                                            # Potassium
                                                            # Chloride
-     0.00911955                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -164,16 +164,16 @@
            22.1                                            # Temperature
             7.6                                            # pH
                                                            # Dissolved Oxygen
-       0.724778                                            # TDIC
+       0.724788                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.236291                                            # Calcium
        0.407277                                            # Eh
       0.0774559                                            # Magnesium
        0.360659                                            # Sodium
-      0.0636066                                            # Potassium
+      0.0636065                                            # Potassium
                                                            # Chloride
-      0.0104207                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -215,18 +215,18 @@
            22.1                                            # Temperature
             7.6                                            # pH
                                                            # Dissolved Oxygen
-       0.720486                                            # TDIC
+       0.762457                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.246796                                            # Calcium
        0.407277                                            # Eh
-      0.0813638                                            # Magnesium
+      0.0813637                                            # Magnesium
        0.287449                                            # Sodium
-      0.0801797                                            # Potassium
+      0.0801796                                            # Potassium
                                                            # Chloride
-     0.00943177                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000965368                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -234,7 +234,7 @@
                                                            # Strontium
     0.000304421                                            # Iron
                                                            # Manganese
-      0.0174927                                            # Nitrate
+      0.0174926                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -248,7 +248,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-      0.0100075                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -266,24 +266,24 @@
              22                                            # Temperature
             7.5                                            # pH
                                                            # Dissolved Oxygen
-        0.44299                                            # TDIC
+       0.577458                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.173911                                            # Calcium
          0.4189                                            # Eh
-      0.0534744                                            # Magnesium
-       0.584899                                            # Sodium
-      0.0372635                                            # Potassium
+      0.0534743                                            # Magnesium
+       0.584898                                            # Sodium
+      0.0372634                                            # Potassium
                                                            # Chloride
-      0.0146264                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000815564                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-     0.00463792                                            # Iron
+     0.00463791                                            # Iron
                                                            # Manganese
       0.0182065                                            # Nitrate
                                                            # Ammonium
@@ -299,7 +299,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-       0.031653                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -317,26 +317,26 @@
            21.9                                            # Temperature
             7.5                                            # pH
                                                            # Dissolved Oxygen
-       0.696646                                            # TDIC
+       0.759458                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.242305                                            # Calcium
        0.442618                                            # Eh
-      0.0802122                                            # Magnesium
-       0.375929                                            # Sodium
-      0.0763946                                            # Potassium
+      0.0802121                                            # Magnesium
+       0.375928                                            # Sodium
+      0.0763945                                            # Potassium
                                                            # Chloride
-      0.0124091                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000948725                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-      0.0005014                                            # Iron
+    0.000501399                                            # Iron
                                                            # Manganese
-      0.0197061                                            # Nitrate
+       0.019706                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -350,7 +350,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-      0.0147888                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -367,19 +367,19 @@
                                                            # Address5
              22                                            # Temperature
             7.5                                            # pH
-    3.08079e-22                                            # Dissolved Oxygen
-       0.816301                                            # TDIC
+    3.08081e-22                                            # Dissolved Oxygen
+       0.819153                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.244476                                            # Calcium
+       0.244475                                            # Calcium
        0.476012                                            # Eh
-      0.0788958                                            # Magnesium
+      0.0788957                                            # Magnesium
        0.248908                                            # Sodium
       0.0679801                                            # Potassium
                                                            # Chloride
-      0.0117533                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000848858                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -401,7 +401,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-    0.000667164                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -418,27 +418,27 @@
                                                            # Address5
              22                                            # Temperature
             7.6                                            # pH
-    2.99682e-21                                            # Dissolved Oxygen
-        0.82758                                            # TDIC
+    2.99683e-21                                            # Dissolved Oxygen
+       0.828369                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.246647                                            # Calcium
        0.484685                                            # Eh
-      0.0797186                                            # Magnesium
-       0.249561                                            # Sodium
+      0.0797185                                            # Magnesium
+        0.24956                                            # Sodium
       0.0732232                                            # Potassium
                                                            # Chloride
-     0.00886963                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000399463                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-    5.37215e-05                                            # Iron
+    5.37214e-05                                            # Iron
                                                            # Manganese
-      0.0142798                                            # Nitrate
+      0.0142797                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -452,7 +452,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-    0.000185323                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -469,19 +469,19 @@
                                                            # Address5
              22                                            # Temperature
             7.6                                            # pH
-    1.04869e-20                                            # Dissolved Oxygen
-       0.814307                                            # TDIC
+     1.0487e-20                                            # Dissolved Oxygen
+       0.814475                                            # TDIC
                                                            # Tritium
                                                            # H2S
         0.25573                                            # Calcium
        0.492709                                            # Eh
-      0.0849018                                            # Magnesium
-       0.402161                                            # Sodium
-      0.0761903                                            # Potassium
+      0.0849017                                            # Magnesium
+        0.40216                                            # Sodium
+      0.0761902                                            # Potassium
                                                            # Chloride
-     0.00984824                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000449398                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -503,7 +503,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-    3.70648e-05                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -520,25 +520,25 @@
                                                            # Address5
              22                                            # Temperature
             7.6                                            # pH
-    2.19103e-20                                            # Dissolved Oxygen
-       0.827661                                            # TDIC
+    2.19104e-20                                            # Dissolved Oxygen
+       0.828296                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.252686                                            # Calcium
        0.497429                                            # Eh
-      0.0832976                                            # Magnesium
-       0.398072                                            # Sodium
+      0.0832975                                            # Magnesium
+       0.398071                                            # Sodium
       0.0733002                                            # Potassium
                                                            # Chloride
-      0.0104312                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000399465                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-    3.58145e-05                                            # Iron
+    3.58144e-05                                            # Iron
                                                            # Manganese
       0.0204201                                            # Nitrate
                                                            # Ammonium
@@ -554,7 +554,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-    0.000148259                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -571,19 +571,19 @@
                                                            # Address5
            21.9                                            # Temperature
             7.6                                            # pH
-    5.84545e-20                                            # Dissolved Oxygen
-       0.871339                                            # TDIC
+    5.84546e-20                                            # Dissolved Oxygen
+         0.8973                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.254933                                            # Calcium
+       0.254932                                            # Calcium
        0.504214                                            # Eh
       0.0820227                                            # Magnesium
-       0.449013                                            # Sodium
-      0.0578527                                            # Potassium
+       0.449012                                            # Sodium
+      0.0578526                                            # Potassium
                                                            # Chloride
-     0.00785988                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000432755                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -605,7 +605,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00618985                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -622,8 +622,8 @@
                                                            # Address5
            21.9                                            # Temperature
             7.6                                            # pH
-    6.52873e-20                                            # Dissolved Oxygen
-       0.769555                                            # TDIC
+    6.52874e-20                                            # Dissolved Oxygen
+       0.793808                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.250165                                            # Calcium
@@ -632,9 +632,9 @@
        0.400115                                            # Sodium
       0.0598472                                            # Potassium
                                                            # Chloride
-      0.0083283                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000416108                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -656,7 +656,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-      0.0057821                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -673,19 +673,19 @@
                                                            # Address5
            21.8                                            # Temperature
             7.5                                            # pH
-    2.31727e-20                                            # Dissolved Oxygen
-        0.79083                                            # TDIC
+    2.31728e-20                                            # Dissolved Oxygen
+       0.815866                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.253584                                            # Calcium
        0.504686                                            # Eh
-      0.0823514                                            # Magnesium
-        0.40812                                            # Sodium
-      0.0604611                                            # Potassium
+      0.0823513                                            # Magnesium
+       0.408119                                            # Sodium
+       0.060461                                            # Potassium
                                                            # Chloride
-     0.00918196                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000432753                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -707,7 +707,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-      0.0058933                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -724,19 +724,19 @@
                                                            # Address5
            21.9                                            # Temperature
             7.6                                            # pH
-    9.01198e-20                                            # Dissolved Oxygen
-       0.805182                                            # TDIC
+    9.01199e-20                                            # Dissolved Oxygen
+       0.835186                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.242756                                            # Calcium
+       0.242755                                            # Calcium
        0.506987                                            # Eh
       0.0788963                                            # Magnesium
-        0.52666                                            # Sodium
+       0.526659                                            # Sodium
       0.0451925                                            # Potassium
                                                            # Chloride
-     0.00880722                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000449399                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -758,7 +758,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00715353                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -776,18 +776,18 @@
              22                                            # Temperature
             7.6                                            # pH
     1.19303e-19                                            # Dissolved Oxygen
-       0.809821                                            # TDIC
+       0.838579                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.257377                                            # Calcium
        0.508285                                            # Eh
-      0.0826806                                            # Magnesium
+      0.0826805                                            # Magnesium
        0.377757                                            # Sodium
       0.0649625                                            # Potassium
                                                            # Chloride
-     0.00908828                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000449398                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -809,7 +809,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00685699                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -826,27 +826,27 @@
                                                            # Address5
              22                                            # Temperature
             7.6                                            # pH
-    1.87351e-20                                            # Dissolved Oxygen
-       0.576138                                            # TDIC
+    1.87352e-20                                            # Dissolved Oxygen
+        0.60039                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.248367                                            # Calcium
        0.496426                                            # Eh
-      0.0812813                                            # Magnesium
-       0.550145                                            # Sodium
-      0.0495399                                            # Potassium
+      0.0812812                                            # Magnesium
+       0.550144                                            # Sodium
+      0.0495398                                            # Potassium
                                                            # Chloride
-     0.00877589                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-     0.00043275                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-    8.95354e-05                                            # Iron
+    8.95353e-05                                            # Iron
                                                            # Manganese
-      0.0203486                                            # Nitrate
+      0.0203485                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -860,7 +860,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00578207                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -877,19 +877,19 @@
                                                            # Address5
            22.1                                            # Temperature
             7.6                                            # pH
-    3.78833e-19                                            # Dissolved Oxygen
-       0.845785                                            # TDIC
+    3.78834e-19                                            # Dissolved Oxygen
+       0.872987                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.260472                                            # Calcium
+       0.260471                                            # Calcium
        0.515188                                            # Eh
-      0.0849021                                            # Magnesium
+       0.084902                                            # Magnesium
        0.398203                                            # Sodium
       0.0729679                                            # Potassium
                                                            # Chloride
-      0.0088801                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000449399                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -897,7 +897,7 @@
                                                            # Strontium
     0.000107444                                            # Iron
                                                            # Manganese
-      0.0226336                                            # Nitrate
+      0.0226335                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -911,7 +911,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00648636                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -929,18 +929,18 @@
              22                                            # Temperature
             7.6                                            # pH
     4.45303e-19                                            # Dissolved Oxygen
-        0.77073                                            # TDIC
+       0.797159                                            # TDIC
                                                            # Tritium
                                                            # H2S
         0.25266                                            # Calcium
        0.516722                                            # Eh
-      0.0811995                                            # Magnesium
+      0.0811994                                            # Magnesium
        0.366446                                            # Sodium
-      0.0638882                                            # Potassium
+      0.0638881                                            # Potassium
                                                            # Chloride
-     0.00881759                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000432752                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -948,7 +948,7 @@
                                                            # Strontium
     0.000143257                                            # Iron
                                                            # Manganese
-      0.0205629                                            # Nitrate
+      0.0205628                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -962,7 +962,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00630101                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -980,18 +980,18 @@
              22                                            # Temperature
             7.6                                            # pH
     1.87349e-20                                            # Dissolved Oxygen
-       0.766513                                            # TDIC
+       0.797135                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.256828                                            # Calcium
        0.496426                                            # Eh
-      0.0837911                                            # Magnesium
-       0.402944                                            # Sodium
-      0.0767529                                            # Potassium
+       0.083791                                            # Magnesium
+       0.402943                                            # Sodium
+      0.0767528                                            # Potassium
                                                            # Chloride
-     0.00894253                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000432753                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -999,7 +999,7 @@
                                                            # Strontium
      0.00012535                                            # Iron
                                                            # Manganese
-      0.0228477                                            # Nitrate
+      0.0228476                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -1013,7 +1013,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00730177                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -1031,16 +1031,16 @@
              22                                            # Temperature
             6.1                                            # pH
                                                            # Dissolved Oxygen
-        1.88799                                            # TDIC
+        1.88825                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.271024                                            # Calcium
        0.515011                                            # Eh
       0.0867523                                            # Magnesium
-       0.325033                                            # Sodium
-      0.0716118                                            # Potassium
+       0.325032                                            # Sodium
+      0.0716117                                            # Potassium
                                                            # Chloride
-     0.00845319                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -1081,17 +1081,17 @@
                                                            # Address5
            21.9                                            # Temperature
               7                                            # pH
-    1.03471e-18                                            # Dissolved Oxygen
-       0.978346                                            # TDIC
+    1.03472e-18                                            # Dissolved Oxygen
+       0.978384                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.268955                                            # Calcium
+       0.268954                                            # Calcium
        0.558022                                            # Eh
-      0.0867118                                            # Magnesium
+      0.0867117                                            # Magnesium
        0.331995                                            # Sodium
-       0.087904                                            # Potassium
+      0.0879039                                            # Potassium
                                                            # Chloride
-     0.00864063                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -1132,17 +1132,17 @@
                                                            # Address5
            21.9                                            # Temperature
               7                                            # pH
-    1.58062e-19                                            # Dissolved Oxygen
-        1.01071                                            # TDIC
+    1.58063e-19                                            # Dissolved Oxygen
+        1.01076                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.241507                                            # Calcium
        0.545986                                            # Eh
-      0.0791018                                            # Magnesium
-       0.278794                                            # Sodium
-      0.0836839                                            # Potassium
+      0.0791017                                            # Magnesium
+       0.278793                                            # Sodium
+      0.0836838                                            # Potassium
                                                            # Chloride
-      0.0087135                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -1183,17 +1183,17 @@
                                                            # Address5
            21.9                                            # Temperature
             7.1                                            # pH
-    4.81759e-18                                            # Dissolved Oxygen
-       0.964679                                            # TDIC
+    4.81761e-18                                            # Dissolved Oxygen
+       0.964712                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.241732                                            # Calcium
        0.561975                                            # Eh
-       0.078567                                            # Magnesium
+      0.0785669                                            # Magnesium
        0.281664                                            # Sodium
-      0.0797708                                            # Potassium
+      0.0797707                                            # Potassium
                                                            # Chloride
-     0.00859898                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -1235,16 +1235,16 @@
            21.9                                            # Temperature
             7.1                                            # pH
     1.05393e-17                                            # Dissolved Oxygen
-        1.17269                                            # TDIC
+        1.17274                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.247548                                            # Calcium
         0.56699                                            # Eh
-       0.079226                                            # Magnesium
-       0.374281                                            # Sodium
-      0.0609733                                            # Potassium
+      0.0792259                                            # Magnesium
+        0.37428                                            # Sodium
+      0.0609732                                            # Potassium
                                                            # Chloride
-      0.0112746                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -1285,17 +1285,17 @@
                                                            # Address5
            21.9                                            # Temperature
             7.1                                            # pH
-    2.06452e-17                                            # Dissolved Oxygen
-       0.914263                                            # TDIC
+    2.06453e-17                                            # Dissolved Oxygen
+       0.914304                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.262043                                            # Calcium
        0.571297                                            # Eh
-      0.0824338                                            # Magnesium
-       0.413602                                            # Sodium
-       0.078083                                            # Potassium
+      0.0824337                                            # Magnesium
+       0.413601                                            # Sodium
+      0.0780829                                            # Potassium
                                                            # Chloride
-      0.0120969                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -1336,17 +1336,17 @@
                                                            # Address5
            21.9                                            # Temperature
             7.1                                            # pH
-    2.90282e-17                                            # Dissolved Oxygen
-       0.937497                                            # TDIC
+    2.90284e-17                                            # Dissolved Oxygen
+       0.937533                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.245725                                            # Calcium
+       0.245724                                            # Calcium
         0.57348                                            # Eh
-      0.0789374                                            # Magnesium
-       0.453579                                            # Sodium
+      0.0789373                                            # Magnesium
+       0.453578                                            # Sodium
       0.0504355                                            # Potassium
                                                            # Chloride
-      0.0100669                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -1356,7 +1356,7 @@
                                                            # Strontium
                                                            # Iron
                                                            # Manganese
-      0.0262035                                            # Nitrate
+      0.0262034                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -1387,17 +1387,17 @@
                                                            # Address5
            21.9                                            # Temperature
             7.1                                            # pH
-    3.86152e-17                                            # Dissolved Oxygen
-         2.0815                                            # TDIC
+    3.86153e-17                                            # Dissolved Oxygen
+        2.08157                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.253622                                            # Calcium
+       0.253621                                            # Calcium
        0.575309                                            # Eh
-      0.0828903                                            # Magnesium
-       0.365334                                            # Sodium
-      0.0707717                                            # Potassium
+      0.0828902                                            # Magnesium
+       0.365333                                            # Sodium
+      0.0707716                                            # Potassium
                                                            # Chloride
-      0.0100882                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -1407,7 +1407,7 @@
                                                            # Strontium
                                                            # Iron
                                                            # Manganese
-      0.0244911                                            # Nitrate
+       0.024491                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -1438,19 +1438,19 @@
                                                            # Address5
            21.9                                            # Temperature
             7.1                                            # pH
-    2.77221e-17                                            # Dissolved Oxygen
-       0.805578                                            # TDIC
+    2.77222e-17                                            # Dissolved Oxygen
+       0.806294                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.256852                                            # Calcium
        0.573185                                            # Eh
        0.084161                                            # Magnesium
-       0.414209                                            # Sodium
-      0.0711004                                            # Potassium
+       0.414208                                            # Sodium
+      0.0711003                                            # Potassium
                                                            # Chloride
-      0.0108684                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000965369                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -1472,7 +1472,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-    0.000148259                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -1489,19 +1489,19 @@
                                                            # Address5
            21.9                                            # Temperature
             7.1                                            # pH
-     2.7722e-17                                            # Dissolved Oxygen
-       0.851892                                            # TDIC
+    2.77221e-17                                            # Dissolved Oxygen
+       0.852607                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.258599                                            # Calcium
        0.573185                                            # Eh
-       0.085025                                            # Magnesium
+      0.0850249                                            # Magnesium
        0.388892                                            # Sodium
-      0.0784919                                            # Potassium
+      0.0784918                                            # Potassium
                                                            # Chloride
-      0.0101397                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000948726                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -1523,7 +1523,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-    0.000148259                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -1541,18 +1541,18 @@
            21.9                                            # Temperature
               7                                            # pH
     1.44156e-17                                            # Dissolved Oxygen
-       0.882458                                            # TDIC
+       0.886353                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.227334                                            # Calcium
        0.574896                                            # Eh
-       0.073425                                            # Magnesium
+      0.0734249                                            # Magnesium
        0.409728                                            # Sodium
       0.0804867                                            # Potassium
                                                            # Chloride
-     0.00966082                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000815571                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -1574,7 +1574,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-    0.000815423                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -1591,19 +1591,19 @@
                                                            # Address5
            21.8                                            # Temperature
             7.1                                            # pH
-    5.11657e-17                                            # Dissolved Oxygen
-       0.867912                                            # TDIC
+     5.1166e-17                                            # Dissolved Oxygen
+       0.868292                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.261044                                            # Calcium
         0.57761                                            # Eh
-      0.0854363                                            # Magnesium
+      0.0854362                                            # Magnesium
        0.307155                                            # Sodium
-       0.080231                                            # Potassium
+      0.0802309                                            # Potassium
                                                            # Chloride
-      0.0113369                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-     0.00104859                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -1625,7 +1625,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-    7.41294e-05                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -1642,19 +1642,19 @@
                                                            # Address5
            21.9                                            # Temperature
               7                                            # pH
-    7.02779e-18                                            # Dissolved Oxygen
-       0.884528                                            # TDIC
+     7.0278e-18                                            # Dissolved Oxygen
+       0.934119                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.263865                                            # Calcium
+       0.263864                                            # Calcium
        0.570294                                            # Eh
-      0.0873289                                            # Magnesium
+      0.0873287                                            # Magnesium
        0.417995                                            # Sodium
-       0.084835                                            # Potassium
+      0.0848349                                            # Potassium
                                                            # Chloride
-       0.013596                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-     0.00101531                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -1676,7 +1676,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-      0.0104894                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -1693,25 +1693,25 @@
                                                            # Address5
            21.9                                            # Temperature
               7                                            # pH
-    2.00821e-17                                            # Dissolved Oxygen
-        1.00791                                            # TDIC
+    2.00822e-17                                            # Dissolved Oxygen
+        1.03823                                            # TDIC
                                                            # Tritium
                                                            # H2S
         0.26439                                            # Calcium
         0.57702                                            # Eh
-      0.0879463                                            # Magnesium
+      0.0879462                                            # Magnesium
         0.45693                                            # Sodium
-      0.0819453                                            # Potassium
+      0.0819452                                            # Potassium
                                                            # Chloride
-       0.010525                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000466045                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-    8.95366e-05                                            # Iron
+    8.95365e-05                                            # Iron
                                                            # Manganese
       0.0252754                                            # Nitrate
                                                            # Ammonium
@@ -1727,7 +1727,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00641225                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -1744,27 +1744,27 @@
                                                            # Address5
            21.8                                            # Temperature
               7                                            # pH
-     2.6605e-17                                            # Dissolved Oxygen
-       0.986261                                            # TDIC
+    2.66051e-17                                            # Dissolved Oxygen
+       0.986487                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.266535                                            # Calcium
        0.579321                                            # Eh
-      0.0885631                                            # Magnesium
+       0.088563                                            # Magnesium
        0.433221                                            # Sodium
-      0.0830193                                            # Potassium
+      0.0830192                                            # Potassium
                                                            # Chloride
-      0.0113786                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000432755                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-    3.58146e-05                                            # Iron
+    3.58145e-05                                            # Iron
                                                            # Manganese
-      0.0217054                                            # Nitrate
+      0.0217053                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -1778,7 +1778,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-    3.70649e-05                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -1795,25 +1795,25 @@
                                                            # Address5
            21.9                                            # Temperature
               7                                            # pH
-    3.55487e-17                                            # Dissolved Oxygen
-       0.969946                                            # TDIC
+    3.55488e-17                                            # Dissolved Oxygen
+       0.994494                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.251164                                            # Calcium
        0.580678                                            # Eh
-      0.0821047                                            # Magnesium
+      0.0821046                                            # Magnesium
        0.350439                                            # Sodium
       0.0686454                                            # Potassium
                                                            # Chloride
-     0.00889048                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000432753                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-    8.95361e-05                                            # Iron
+     8.9536e-05                                            # Iron
                                                            # Manganese
       0.0219909                                            # Nitrate
                                                            # Ammonium
@@ -1829,7 +1829,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00518908                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -1846,25 +1846,25 @@
                                                            # Address5
            21.8                                            # Temperature
             7.1                                            # pH
-    9.14043e-17                                            # Dissolved Oxygen
-       0.933049                                            # TDIC
+    9.14044e-17                                            # Dissolved Oxygen
+       0.960651                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.269005                                            # Calcium
        0.581327                                            # Eh
-      0.0878638                                            # Magnesium
-       0.399944                                            # Sodium
-      0.0876997                                            # Potassium
+      0.0878637                                            # Magnesium
+       0.399943                                            # Sodium
+      0.0876996                                            # Potassium
                                                            # Chloride
-     0.00897379                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000466043                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-    7.16291e-05                                            # Iron
+     7.1629e-05                                            # Iron
                                                            # Manganese
       0.0184924                                            # Nitrate
                                                            # Ammonium
@@ -1880,7 +1880,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00600452                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -1897,25 +1897,25 @@
                                                            # Address5
            21.8                                            # Temperature
             7.1                                            # pH
-    9.22506e-17                                            # Dissolved Oxygen
-       0.954034                                            # TDIC
+    9.22507e-17                                            # Dissolved Oxygen
+       0.983848                                            # TDIC
                                                            # Tritium
                                                            # H2S
-        0.26661                                            # Calcium
+       0.266609                                            # Calcium
        0.581386                                            # Eh
       0.0854779                                            # Magnesium
        0.381934                                            # Sodium
-      0.0684922                                            # Potassium
+      0.0684921                                            # Potassium
                                                            # Chloride
-     0.00838039                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000466043                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-    7.16291e-05                                            # Iron
+     7.1629e-05                                            # Iron
                                                            # Manganese
       0.0174214                                            # Nitrate
                                                            # Ammonium
@@ -1931,7 +1931,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00648636                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -1948,25 +1948,25 @@
                                                            # Address5
            21.8                                            # Temperature
               7                                            # pH
-    5.61009e-17                                            # Dissolved Oxygen
-       0.967082                                            # TDIC
+     5.6101e-17                                            # Dissolved Oxygen
+       0.994602                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.261619                                            # Calcium
          0.5841                                            # Eh
-      0.0853545                                            # Magnesium
+      0.0853544                                            # Magnesium
        0.396376                                            # Sodium
-      0.0650138                                            # Potassium
+      0.0650137                                            # Potassium
                                                            # Chloride
-     0.00866147                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000466043                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-     7.1629e-05                                            # Iron
+    7.16289e-05                                            # Iron
                                                            # Manganese
       0.0258465                                            # Nitrate
                                                            # Ammonium
@@ -1982,7 +1982,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00581919                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -2000,18 +2000,18 @@
            21.8                                            # Temperature
             7.1                                            # pH
     1.38345e-16                                            # Dissolved Oxygen
-       0.967541                                            # TDIC
+       0.995314                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.268507                                            # Calcium
+       0.268506                                            # Calcium
        0.583982                                            # Eh
-      0.0871647                                            # Magnesium
+      0.0871646                                            # Magnesium
        0.449404                                            # Sodium
-       0.069899                                            # Potassium
+      0.0698989                                            # Potassium
                                                            # Chloride
-     0.00950474                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000482689                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -2019,7 +2019,7 @@
                                                            # Strontium
     7.16292e-05                                            # Iron
                                                            # Manganese
-      0.0168503                                            # Nitrate
+      0.0168502                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -2033,7 +2033,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-      0.0060416                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -2051,26 +2051,26 @@
            21.8                                            # Temperature
             7.1                                            # pH
     1.37076e-16                                            # Dissolved Oxygen
-       0.951235                                            # TDIC
+       0.979857                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.261945                                            # Calcium
+       0.261944                                            # Calcium
        0.583923                                            # Eh
-      0.0853137                                            # Magnesium
-        0.53571                                            # Sodium
+      0.0853136                                            # Magnesium
+       0.535709                                            # Sodium
       0.0550394                                            # Potassium
                                                            # Chloride
-     0.00934859                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000482689                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-    7.16293e-05                                            # Iron
+    7.16292e-05                                            # Iron
                                                            # Manganese
-       0.029131                                            # Nitrate
+      0.0291309                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -2084,7 +2084,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00622693                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -2101,19 +2101,19 @@
                                                            # Address5
            21.9                                            # Temperature
               7                                            # pH
-    3.55478e-17                                            # Dissolved Oxygen
-        1.02452                                            # TDIC
+    3.55479e-17                                            # Dissolved Oxygen
+        1.05028                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.271201                                            # Calcium
        0.580678                                            # Eh
-      0.0873703                                            # Magnesium
-       0.390331                                            # Sodium
+      0.0873702                                            # Magnesium
+        0.39033                                            # Sodium
       0.0745793                                            # Potassium
                                                            # Chloride
-     0.00864067                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000466044                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -2135,7 +2135,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00544855                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -2153,18 +2153,18 @@
            21.9                                            # Temperature
               7                                            # pH
     4.04401e-17                                            # Dissolved Oxygen
-       0.984916                                            # TDIC
+        1.01418                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.273946                                            # Calcium
        0.581504                                            # Eh
-      0.0887688                                            # Magnesium
+      0.0887687                                            # Magnesium
         0.41195                                            # Sodium
-      0.0784924                                            # Potassium
+      0.0784923                                            # Potassium
                                                            # Chloride
-     0.00902585                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000482688                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -2186,7 +2186,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00618985                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -2204,24 +2204,24 @@
            21.9                                            # Temperature
             7.1                                            # pH
     1.08347e-16                                            # Dissolved Oxygen
-       0.923583                                            # TDIC
+       0.952714                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.271276                                            # Calcium
+       0.271275                                            # Calcium
        0.581917                                            # Eh
-      0.0878638                                            # Magnesium
+      0.0878637                                            # Magnesium
        0.406164                                            # Sodium
-      0.0790806                                            # Potassium
+      0.0790805                                            # Potassium
                                                            # Chloride
-     0.00906748                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000449399                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-    7.16291e-05                                            # Iron
+     7.1629e-05                                            # Iron
                                                            # Manganese
       0.0247755                                            # Nitrate
                                                            # Ammonium
@@ -2237,7 +2237,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-      0.0063381                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -2255,24 +2255,24 @@
            21.9                                            # Temperature
             7.1                                            # pH
     1.36399e-16                                            # Dissolved Oxygen
-       0.987589                                            # TDIC
+        1.01825                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.270278                                            # Calcium
        0.583392                                            # Eh
-      0.0890158                                            # Magnesium
-       0.406035                                            # Sodium
+      0.0890157                                            # Magnesium
+       0.406034                                            # Sodium
       0.0811524                                            # Potassium
                                                            # Chloride
-     0.00757881                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-      0.0004494                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-    7.16293e-05                                            # Iron
+    7.16292e-05                                            # Iron
                                                            # Manganese
        0.024133                                            # Nitrate
                                                            # Ammonium
@@ -2288,7 +2288,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00667171                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -2306,18 +2306,18 @@
            22.4                                            # Temperature
             5.3                                            # pH
                                                            # Dissolved Oxygen
-        1.00173                                            # TDIC
+        1.00262                                            # TDIC
                                                            # Tritium
                                                            # H2S
-      0.0457839                                            # Calcium
+      0.0457838                                            # Calcium
           0.413                                            # Eh
       0.0127099                                            # Magnesium
       0.0990448                                            # Sodium
       0.0114317                                            # Potassium
                                                            # Chloride
-     0.00571499                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    9.98606e-05                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -2339,7 +2339,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-    3.70628e-05                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -2357,24 +2357,24 @@
            22.2                                            # Temperature
               4                                            # pH
                                                            # Dissolved Oxygen
-        208.257                                            # TDIC
+        208.362                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.254832                                            # Calcium
+       0.254831                                            # Calcium
        0.552004                                            # Eh
-      0.0807472                                            # Magnesium
-       0.288625                                            # Sodium
-      0.0729166                                            # Potassium
+      0.0807471                                            # Magnesium
+       0.288624                                            # Sodium
+      0.0729165                                            # Potassium
                                                            # Chloride
-      0.0115555                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000449398                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-    0.000555124                                            # Iron
+    0.000555123                                            # Iron
                                                            # Manganese
       0.0339145                                            # Nitrate
                                                            # Ammonium
@@ -2390,7 +2390,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00270573                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -2408,24 +2408,24 @@
              23                                            # Temperature
             5.7                                            # pH
                                                            # Dissolved Oxygen
-         1.5011                                            # TDIC
+        2.53994                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.214132                                            # Calcium
+       0.214131                                            # Calcium
        0.561975                                            # Eh
-      0.0542967                                            # Magnesium
-       0.167256                                            # Sodium
-      0.0389257                                            # Potassium
+      0.0542964                                            # Magnesium
+       0.167255                                            # Sodium
+      0.0389254                                            # Potassium
                                                            # Chloride
-      0.0266606                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000249661                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-      0.0464505                                            # Iron
+      0.0464502                                            # Iron
                                                            # Manganese
                                                            # Nitrate
                                                            # Ammonium
@@ -2441,7 +2441,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-       0.107449                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -2459,24 +2459,24 @@
            22.3                                            # Temperature
             6.6                                            # pH
                                                            # Dissolved Oxygen
-        1.10915                                            # TDIC
+        1.12747                                            # TDIC
                                                            # Tritium
                                                            # H2S
-       0.263614                                            # Calcium
+       0.263613                                            # Calcium
        0.416009                                            # Eh
-      0.0743299                                            # Magnesium
-        0.27379                                            # Sodium
-      0.0623279                                            # Potassium
+      0.0743297                                            # Magnesium
+       0.273789                                            # Sodium
+      0.0623278                                            # Potassium
                                                            # Chloride
-      0.0229236                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000382818                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-     0.00157583                                            # Iron
+     0.00157582                                            # Iron
                                                            # Manganese
       0.0150651                                            # Nitrate
                                                            # Ammonium
@@ -2492,7 +2492,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00333582                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -2509,19 +2509,19 @@
                                                            # Address5
            23.7                                            # Temperature
            5.03                                            # pH
-    9.73498e-22                                            # Dissolved Oxygen
+    9.73508e-22                                            # Dissolved Oxygen
                                                            # TDIC
                                                            # Tritium
                                                            # H2S
-     0.00746013                                            # Calcium
+     0.00746012                                            # Calcium
         0.62068                                            # Eh
      0.00312605                                            # Magnesium
         0.22484                                            # Sodium
       0.0027876                                            # Potassium
                                                            # Chloride
-     0.00687047                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-     8.3217e-05                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -2529,7 +2529,7 @@
                                                            # Strontium
     0.000196968                                            # Iron
                                                            # Manganese
-      0.0172776                                            # Nitrate
+      0.0172775                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -2543,7 +2543,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-      0.0108223                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
@@ -2560,7 +2560,7 @@
                                                            # Address5
            23.7                                            # Temperature
            5.03                                            # pH
-    9.73525e-22                                            # Dissolved Oxygen
+    9.73527e-22                                            # Dissolved Oxygen
                                                            # TDIC
                                                            # Tritium
                                                            # H2S
@@ -2570,7 +2570,7 @@
        0.109571                                            # Sodium
      0.00363154                                            # Potassium
                                                            # Chloride
-     0.00429923                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
                                                            # Silica
                                                            # Bromide
@@ -2611,19 +2611,19 @@
                                                            # Address5
            22.3                                            # Temperature
            7.35                                            # pH
-                                                           # Dissolved Oxygen
-       0.646389                                            # TDIC
+    3.45177e-20                                            # Dissolved Oxygen
+       0.646404                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.150082                                            # Calcium
-         0.2478                                            # Eh
+       0.513595                                            # Eh
        0.043643                                            # Magnesium
        0.256952                                            # Sodium
-      0.0624294                                            # Potassium
+      0.0624293                                            # Potassium
                                                            # Chloride
-     0.00697484                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000299593                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
@@ -2631,7 +2631,7 @@
                                                            # Strontium
                                                            # Iron
                                                            # Manganese
-      0.0414821                                            # Nitrate
+       0.041482                                            # Nitrate
                                                            # Ammonium
                                                            # Phosphate
                                                            # DOC
@@ -2662,25 +2662,25 @@
                                                            # Address5
            22.6                                            # Temperature
             7.3                                            # pH
-                                                           # Dissolved Oxygen
-       0.725478                                            # TDIC
+    2.74881e-20                                            # Dissolved Oxygen
+       0.752245                                            # TDIC
                                                            # Tritium
                                                            # H2S
        0.211464                                            # Calcium
-         0.2478                                            # Eh
+       0.513595                                            # Eh
       0.0622773                                            # Magnesium
        0.437001                                            # Sodium
       0.0466499                                            # Potassium
                                                            # Chloride
-     0.00816169                                            # Sulfate
+                                                           # Sulfate
                                                            # Fluoride
-    0.000416106                                            # Silica
+                                                           # Silica
                                                            # Bromide
                                                            # Boron
                                                            # Barium
                                                            # Lithium
                                                            # Strontium
-     0.00107443                                            # Iron
+     0.00107442                                            # Iron
                                                            # Manganese
       0.0261318                                            # Nitrate
                                                            # Ammonium
@@ -2696,7 +2696,7 @@
                                                            # Delta O-18
                                                            # CH4 (aq)
                                                            # Sr 87/86
-     0.00615272                                            # Alumninum
+                                                           # Alumninum
                                                            # N2 (aq)
                                                            # N-15 of N2 (aq)
                                                            # N-15 of Nitrate
