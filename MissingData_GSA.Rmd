@@ -74,7 +74,7 @@ plot(resMIPCA, choice = "all", axes = c(1,2), new.plot = TRUE, main = NULL, leve
 
 ```{r Reading in data}
 df <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/CostaRica_Chemistry_Q_20201002.csv", stringsAsFactors = FALSE)
-df$SamplingDate <- as.POSIXct(df$SamplingDate, format ="%m/%d/%y %H:%M")
+df$SamplingDate <- as.POSIXct(df$SamplingDate, format ="%m/%d/%Y %H:%M")
 
 ### For now, let's set BDL as 0.1, globally (across all data)
 df <- dplyr::mutate_if(tibble::as_tibble(df), # changed as.tibble to as_tibble
@@ -94,6 +94,7 @@ names(df)[1] <- "ID"
 
 # Let's also just drop some columns that are REALLY lacking data: AlkalinityS, Mn_f, SO4_f, As_f
 df <- subset(df, select = -c(AlkalinityS, O2, SO4_f, As_f, B, Ba, Fetot, Mn_f, TotalNField, Sr2, U, Mo, Cd, Sb, Pb))
+
 
 # Remove DS9Bot, Howler Weir
 df <- df[-c(21, 31),] 
@@ -162,12 +163,604 @@ OK, now for the real deal with Amelia and multiple imputation, which assumes Joi
 OK, so Amelia flopped hard. I have too many missing values to imputate. So let's try a different approach. 
 
 ```{r Let's impute by end member group / mixing sample}
-nb 
-nb <- estim_ncpPCA(df, method.cv = "Kfold")
+## HM.....let's just take out the variables that matter, for example in DS2018
+ds1 <- data.frame(DS2018) # Take a copy of the data
+
+# let's also set ID as the rowname
+rownames(ds1) <- ds1$ID
+
+# Let's try looking at all good enough variables. First, I'll use a function to help determine the value of dimension S that that minimizes the mean squared error of prediction (MSEP)
+ds1 <- subset(ds1, select = c(SPCOND, pH, ORP, AlkalinityW, NH3_f, H2S_f, NO3_f, Cl, Fl, NO2, NO3, SO4, Li, Na_IC, K_IC, Mg_IC, Ca_IC, Al, Si, P, Ca, Cr, Mn, Fe, Cu, Zn, Sr, K, Mg, Na, O18, D)) # Pulling out some variables
+nb <- estim_ncpPCA(ds1, method.cv = "Kfold")
 ggplot(data = NULL, aes(x = 0:5, y = nb$criterion)) + 
     geom_point() + 
     geom_line() + 
     xlab("nb dim") + 
     ylab("MSEP")
 ```
+We can see that the MSEP is minimized when S is 2, which we can access with `nb$ncp`. Let's perform the actual PCA imputation.
+
+```{r Imputing DS2018}
+res.imp <- imputePCA(ds1, ncp = 2, scale = TRUE) # from previous block
+res.pca <- PCA(res.imp$completeObs) # uses PCA function from FactoMineR package
+```
+
+Let's do the same for US2018.
+
+```{r US2018 PCA}
+## HM.....let's just take out the variables that matter, for example in DS2018
+us1 <- data.frame(US2018) # Take a copy of the data
+
+# let's also set ID as the rowname
+rownames(us1) <- us1$ID
+
+# Let's try looking at all good enough variables. First, I'll use a function to help determine the value of dimension S that that minimizes the mean squared error of prediction (MSEP)
+us1 <- subset(us1, select = c(SPCOND, pH, ORP, AlkalinityW, NH3_f, H2S_f, NO3_f, Cl, Fl, NO2, NO3, SO4, Li, Na_IC, K_IC, Mg_IC, Ca_IC, Al, Si, P, Ca, Cr, Mn, Fe, Cu, Zn, Sr, K, Mg, Na, O18, D)) # Pulling out some variables
+nb <- estim_ncpPCA(us1, method.cv = "Kfold")
+ggplot(data = NULL, aes(x = 0:5, y = nb$criterion)) + 
+    geom_point() + 
+    geom_line() + 
+    xlab("nb dim") + 
+    ylab("MSEP")
+
+res.imp <- imputePCA(us1, ncp = nb$ncp, scale = TRUE) # from previous block
+res.pca <- PCA(res.imp$completeObs) # uses PCA function from FactoMineR package
+```
+
+What if I did multple imputations? Using the MIPCA function.
+
+```{r MIPCA DS}
+resMIPCA_ds <- MIPCA(ds1, ncp = 2, nboot = 200)
+plot(resMIPCA_ds)
+```
+
+```{r MIPCA US}
+resMIPCA_us <- MIPCA(us1, ncp = 2, nboot = 200)
+plot(resMIPCA_us)
+```
+
+What if I only pulled out what was conservative? These include $\delta^{18}$O, $\delta$D, Cl$^-$, and SO$_4$$^{2-}$, but might be safe to include our base cations and maybe alkalinity and SPCOND. Let's give it a try!
+
+```{r Conservative MIPCA for DS2018}
+ds2 <- data.frame(DS2018)
+rownames(ds2) <- ds2$ID
+
+us2 <- data.frame(US2018)
+rownames(us2) <- us2$ID
+
+ds2 <- subset(ds2, select = c(SPCOND, AlkalinityW, Cl, SO4, Na_IC, K_IC, Mg_IC, Ca_IC, O18, D))
+us2 <- subset(us2, select = c(SPCOND, AlkalinityW, Cl, SO4, Na_IC, K_IC, Mg_IC, Ca_IC, O18, D))
+
+# first find out what the minimal S is
+nb_ds <- estim_ncpPCA(ds2, method.cv = "Kfold")
+nb_us <- estim_ncpPCA(us2, method.cv = "Kfold")
+
+# Multiple imputation
+resMIPCA_ds <- MIPCA(ds2, ncp = 3, nboot = 200)
+plot(resMIPCA_ds)
+```
+
+```{r Conservative MIPCA for US2018}
+resMIPCA_us <- MIPCA(us2, ncp = 3, nboot = 200)
+plot(resMIPCA_us)
+```
+
+OK, now what if we just considered the REAL conservative solutes? We don't really have to imputate then, but it'd be interesting to do anyways.
+
+```{r Conservative Conservative DS2018}
+ds3 <- data.frame(DS2018)
+rownames(ds3) <- ds3$ID
+
+us3 <- data.frame(US2018)
+rownames(us3) <- us3$ID
+
+ds3 <- subset(ds3, select = c(Cl, SO4, O18, D))
+us3 <- subset(us3, select = c(Cl, SO4, O18, D))
+
+dsres.pca <- PCA(ds3)
+```
+
+```{r Conservative Conservative US2018}
+usres.pca <- PCA(us3)
+```
+
+Hm....so maybe I didn't need to impute at all? Maybe I could impute the endmembers. Checking to see if I get similar results using `ggfortify`.
+
+```{r Reproducibility}
+library(ggfortify)
+pca_res_ds <- prcomp(ds3, scale. = TRUE)
+autoplot(pca_res_ds, label = TRUE, label.size = 3, shape = FALSE, loadings = TRUE,
+         loadings.label = TRUE, loadings.label.size = 5)
+```
+
+Out of curiosity, let's check out a few more things.
+
+```{r Scree plot}
+# To extract eigenvalues/variances
+library(factoextra)
+get_eig(dsres.pca)
+# Visualize eigenvalues/variances
+fviz_screeplot(dsres.pca, addlabels = TRUE)
+```
+
+Extract and visualize results for variables.
+```{r More vis}
+var <- get_pca_var(dsres.pca)
+var
+head(var$coord)
+head(var$contrib)
+fviz_pca_var(dsres.pca, col.var = "black")
+```
+
+```{r}
+# Control variable colors using their contributions
+fviz_pca_var(dsres.pca, col.var="contrib",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE # Avoid text overlapping
+             )
+```
+
+Contribution of variables to the principal axes:
+
+```{r Variable contribution}
+# Contributions of variables to PC1
+fviz_contrib(dsres.pca, choice = "var", axes = 1, top = 10)
+
+# Contributions of variables to PC2
+fviz_contrib(dsres.pca, choice = "var", axes = 2, top = 10)
+```
+
+Extracting results for individuals
+
+```{r Individuals}
+ind <- get_pca_ind(dsres.pca)
+fviz_pca_ind(dsres.pca, col.ind = "cos2", 
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE # Avoid text overlapping (slow if many points)
+             )
+```
+
+Biplot of individuals and variables
+```{r Biplot}
+fviz_pca_biplot(dsres.pca, repel = TRUE)
+```
+Total contribution of individuals to PC 1-2
+```{r Contribution of individuals to S = 2}
+fviz_contrib(dsres.pca, choice = "ind", axes = 1:2)
+```
+
+
+OK now let's add the supplementary info for individuals (end members). For this go, I'm going to toss every possible endmember on there, except for the US samples.
+
+```{r}
+soil1 <- data.frame(SOIL2018)
+rownames(soil1) <- soil1$ID
+soil3 <- subset(soil1, select = c(Cl, SO4, O18, D))
+
+spring1 <- data.frame(SPRING2018)
+# let's just get rid of "sp box sample" for now
+spring1 <- spring1[-c(1),] # remove the first row, now n = 2
+rownames(spring1) <- spring1$ID
+spring3 <- subset(spring1, select = c(Cl, SO4, O18, D))
+
+rain1 <- data.frame(RAIN2018)
+rownames(rain1) <- rain1$ID
+rain3 <- subset(rain1, select = c(Cl, SO4, O18, D))
+
+
+# time to merge vertically
+# library(tidyverse)
+em <- bind_rows(ds3,soil3,spring3,rain3)
+
+supplres.pca <- PCA(em, ind.sup = 22:31)
+```
+
+More on individuals:
+```{r Predicted results for the supplementary individuals}
+supplres.pca$ind.sup
+```
+Visualizing supplementary individuals
+
+```{r Supplementary visualization}
+p <- fviz_pca_ind(supplres.pca, col.ind.sup = "blue", repel = TRUE)
+p
+```
+
+OK, let's see what a crazy mess this will look like with the upstream samples added as supplementary individuals.
+
+```{r Upstream as Individuals}
+em2 <- bind_rows(ds3,us3,soil3,spring3,rain3)
+supplres2.pca <- PCA(em2, ind.sup = 22:56)
+```
+
+Ok that's gross, but there's a couple things I can tease out. I can have four endmembers: Rain (average of Rain 1 and Rain 2), average of soil seeps (Well 203 and Well 205), Well 200 and HW Trib (bowl shaped, probably has older soil water, most likely closest to actual groundwater; HW Trib could be related to Well 200), and maybe the average of the upstream samples? Maybe use median instead.
+
+OK, let's take the median of the US points and means for the Rain and Well (W3 and W5) samples.
+
+```{r Taking median/mean values for endmembers}
+library(matrixStats)
+library(plyr)
+
+us3_median <- matrixStats::colMedians(as.matrix(us3))
+us3_std <- matrixStats::colSds(as.matrix(us3))
+
+rain3_mean <- matrixStats::colMeans2(as.matrix(rain3))
+rain3_std <- matrixStats::colSds(as.matrix(rain3))
+
+# ok dealing with the soil samples
+## first extracting W0 and HW Trib
+deepsoil3_mean <- matrixStats::colMeans2(as.matrix(soil3[c(1,3),])) # row 1 = HW Trib, row 3 = Well 200 / W0 
+deepsoil3_std <- matrixStats::colSds(as.matrix(soil3[c(1,3),]))
+
+topsoil3_mean <- matrixStats::colMeans2(as.matrix(soil3[c(5,6),])) # row 5 = Well 203 / W3, row 6 = Well 205 / W5
+topsoil3_std <- matrixStats::colSds(as.matrix(soil3[c(5,6),]))
+
+# Convert vectors into dataframe in 1 row
+us3_median <- matrix(us3_median, ncol = 4)
+us3_median <- as.data.frame(us3_median)
+rownames(us3_median) <- "US"
+
+rain3_mean <- matrix(rain3_mean, ncol = 4)
+rain3_mean <- as.data.frame(rain3_mean)
+rownames(rain3_mean) <- "Rain"
+
+deepsoil3_mean <- matrix(deepsoil3_mean, ncol = 4)
+deepsoil3_mean <- as.data.frame(deepsoil3_mean)
+rownames(deepsoil3_mean) <- "Deep Soil"
+
+topsoil3_mean <- matrix(topsoil3_mean, ncol = 4)
+topsoil3_mean <- as.data.frame(topsoil3_mean)
+rownames(topsoil3_mean) <- "Shallow Soil"
+
+# Ok let's merge these endmember dataframes and then rename the columns to match ds3. Let's also ignore the error/stdev for now.
+endmembers <- bind_rows(us3_median,rain3_mean,deepsoil3_mean,topsoil3_mean)
+endmembers <- rename(endmembers, c("V1"= "Cl", "V2" = "SO4", "V3" = "O18", "V4" = "D"))
+
+# Finally let's join this with DS3 as supplementary individuals
+emmas <- bind_rows(ds3,endmembers)
+emmas.pca <- PCA(emmas, ind.sup = 22:25)
+```
+
+OK, so the US endmember is pretty bad, but let's just keep it moving? Luckily, by the Rule of One, I could just reduce the components to U1 and U2 and I would need three endmembers: Deep Soil, Top Soil, Rain, which beautifully bound the stream samples except for DS22 and DS20. 
+
+Let's have a PCA where US wasn't included, which would greatly reduce the problem to three-endmember mixing.
+
+```{r Without US}
+endmembers2 <- bind_rows(rain3_mean,deepsoil3_mean,topsoil3_mean)
+endmembers2 <- rename(endmembers2, c("V1"= "Cl", "V2" = "SO4", "V3" = "O18", "V4" = "D"))
+
+emmas2 <- bind_rows(ds3,endmembers2)
+emmas2.pca <- PCA(emmas2, ind.sup = 22:24)
+```
+
+```{r}
+dsc <- rgb(0.06,0.22,0.67) # blue
+xyz <- data.frame(emmas2.pca$ind.sup$coord)
+xyz <- subset(xyz, select = c(Dim.1,Dim.2))
+# fviz_pca_ind(emmas2.pca, repel = TRUE)
+# plot.PCA(emmas2.pca)
+## S3 method for class 'PCA'
+indie <- plot(emmas2.pca, axes = c(1, 2), choix = c("ind","var","varcor"),
+    ellipse = NULL, xlim = NULL, ylim = NULL, habillage="none", 
+    col.hab = NULL, col.ind=dsc, col.ind.sup="black", 
+    col.quali="magenta", col.quanti.sup="blue", col.var="black",
+    label = c("ind.sup", "ind"),
+	invisible = c("none","ind","ind.sup","quali","var","quanti.sup"), 
+    lim.cos2.var = 0., title = NULL, palette=NULL,
+    autoLab = c("auto","yes","no"), new.plot = FALSE, select = c("DS17","DS11","DS22","DS20","Deep Soil","Shallow Soil","Rain"), 
+	unselect = 0, shadowtext = FALSE, legend = list(bty = "y", x = "topleft"),
+	graph.type = c("ggplot","classic"), ggoptions = list(size = 7))
+
+indie_final <- indie + theme(panel.grid = element_blank(),
+              axis.title = element_text(size = 24),
+              axis.text = element_text(size = 24, color = "black"),
+              plot.title = element_text(size = 24),
+              legend.position = "none") +
+  geom_polygon(data = xyz, aes(x = Dim.1, y = Dim.2, alpha = 0.1), colour = "grey")
+# default
+# plot(x, axes = c(1, 2), choix = c("ind","var","varcor"),
+#     ellipse = NULL, xlim = NULL, ylim = NULL, habillage="none", 
+#     col.hab = NULL, col.ind="black", col.ind.sup="blue", 
+#     col.quali="magenta", col.quanti.sup="blue", col.var="black",
+#     label = c("all","none","ind","ind.sup","quali","var","quanti.sup"),
+# 	invisible = c("none","ind","ind.sup","quali","var","quanti.sup"), 
+#     lim.cos2.var = 0., title = NULL, palette=NULL,
+#     autoLab = c("auto","yes","no"), new.plot = FALSE, select = NULL, 
+# 	unselect = 0.7, shadowtext = FALSE, legend = list(bty = "y", x = "topleft"),
+# 	graph.type = c("ggplot","classic"), ggoptions = NULL, ...)
+
+ggsave(file = "indie.pdf", plot = indie_final, width = 10.25, height = 6, dpi = 600)
+ 
+```
+
+
+```{r GSA Individuals Plot}
+indie2 <- plot(emmas2.pca, axes = c(1, 2), choix = c("ind","var","varcor"),
+    ellipse = NULL, xlim = NULL, ylim = NULL, habillage="none", 
+    col.hab = NULL, col.ind=dsc, col.ind.sup="black", 
+    col.quali="magenta", col.quanti.sup="blue", col.var="black",
+    label = c("none"),
+	invisible = c("none","ind","ind.sup","quali","var","quanti.sup"), 
+    lim.cos2.var = 0., title = NULL, palette=NULL,
+    autoLab = c("no"), new.plot = FALSE, select = NULL, 
+	unselect = 0, shadowtext = FALSE, legend = list(bty = "y", x = "topleft"),
+	graph.type = c("ggplot","classic"), ggoptions = list(size = 7))
+
+indie2_final <- indie2 + theme(panel.grid = element_blank(),
+              axis.title = element_text(size = 22),
+              axis.text = element_text(size = 20, color = "black"),
+              plot.title = element_text(size = 22),
+              legend.position = "none",
+              panel.border = element_rect(colour = "black", fill=NA, size=2)) +
+  geom_polygon(data = xyz, aes(x = Dim.1, y = Dim.2, alpha = 0.9))
+# default
+# plot(x, axes = c(1, 2), choix = c("ind","var","varcor"),
+#     ellipse = NULL, xlim = NULL, ylim = NULL, habillage="none", 
+#     col.hab = NULL, col.ind="black", col.ind.sup="blue", 
+#     col.quali="magenta", col.quanti.sup="blue", col.var="black",
+#     label = c("all","none","ind","ind.sup","quali","var","quanti.sup"),
+# 	invisible = c("none","ind","ind.sup","quali","var","quanti.sup"), 
+#     lim.cos2.var = 0., title = NULL, palette=NULL,
+#     autoLab = c("auto","yes","no"), new.plot = FALSE, select = NULL, 
+# 	unselect = 0.7, shadowtext = FALSE, legend = list(bty = "y", x = "topleft"),
+# 	graph.type = c("ggplot","classic"), ggoptions = NULL, ...)
+
+ggsave(file = "indie2.pdf", plot = indie2_final, width = 6.34, height = 4, dpi = 600)
+ 
+```
+
+```{r GSA Var}
+indie2 <- plot(emmas2.pca, axes = c(1, 2), choix = c("var"),
+    ellipse = NULL, xlim = NULL, ylim = NULL, habillage="none", 
+    col.hab = NULL, col.ind="black", col.ind.sup="blue", 
+    col.quali="magenta", col.quanti.sup="blue", col.var="black",
+    label = c("none"),
+	invisible = c("none","ind","ind.sup","quali","var","quanti.sup"), 
+    lim.cos2.var = 0., title = NULL, palette=NULL,
+    autoLab = c("auto","yes","no"), new.plot = FALSE, select = NULL, 
+	unselect = 0.7, shadowtext = FALSE, legend = list(bty = "y", x = "topleft"),
+	graph.type = c("ggplot","classic"), ggoptions = NULL)
+
+indie2_final <- indie2 + theme(panel.grid = element_blank(),
+              axis.title = element_text(size = 22),
+              axis.text = element_text(size = 20, color = "black"),
+              plot.title = element_text(size = 22),
+              legend.position = "none",
+              panel.border = element_rect(colour = "black", fill=NA, size=2)) 
+# default
+# plot(x, axes = c(1, 2), choix = c("ind","var","varcor"),
+#     ellipse = NULL, xlim = NULL, ylim = NULL, habillage="none", 
+#     col.hab = NULL, col.ind="black", col.ind.sup="blue", 
+#     col.quali="magenta", col.quanti.sup="blue", col.var="black",
+#     label = c("all","none","ind","ind.sup","quali","var","quanti.sup"),
+# 	invisible = c("none","ind","ind.sup","quali","var","quanti.sup"), 
+#     lim.cos2.var = 0., title = NULL, palette=NULL,
+#     autoLab = c("auto","yes","no"), new.plot = FALSE, select = NULL, 
+# 	unselect = 0.7, shadowtext = FALSE, legend = list(bty = "y", x = "topleft"),
+# 	graph.type = c("ggplot","classic"), ggoptions = NULL, ...)
+
+ggsave(file = "var.pdf", plot = indie2_final, width = 7.34, height = 4, dpi = 600)
+ 
+```
+
+OK now finally we can do EMMA. These calculations should be based on the following sets of equations from Christopherson et al. (1990) to solve the contribution of each end member to streamflow:
+
+\[
+1 = a_1 + a_2 + a_3
+\]
+
+\[
+SW_{U1} = a_1EM_{1U1}+a_2EM_{2U1}+a_3EM_{3U1}
+\]
+
+\[
+SW_{U2} = a_1EM_{1U2}+a_2EM_{2U2}+a_3EM_{3U2}
+\]
+
+where $a_1$, $a_2$m and $a_3$ are the fractions of each end member, $SW_{U1}$ and $SW_{U2}$ are the project stream water observations in U space coordinates, and $EM_{1U1}$ and $EM_{3U2}$ are the coefficients of the $n$th end member projected in U space.
+
+Let's extract some data:
+```{r See description of PCA output}
+emmas2.pca
+```
+```{r}
+em_coords <- emmas2.pca$ind.sup$coord
+em_coords <- as.data.frame(em_coords)
+dsu <- emmas2.pca$ind$coord
+dsu <- as.data.frame(dsu)
+
+# subsetting DS discharge
+dsq <- subset(DS2018, select = c(SamplingDate, Q))
+
+# Let's remove Howler 2
+dsu <- dsu[-c(21),]
+dsq <- dsq[-c(21),]
+```
+
+OK, let's solve these one by one.
+
+```{r DS1: Flowpaths}
+A = array(c(3.529428, -2.704799, 1, -2.656899, -1.596949, 1, 5.134543, 3.986612, 1
+), dim = c(3,3)) # rain, deep soil, top soil 
+b = c(0.08410838*0.003010143,-1.1266902*0.003010143, 0.003010143)
+solve(A,b)
+```
+
+```{r DS1: Fractions}
+A = array(c(3.529428, -2.704799, 1, -2.656899, -1.596949, 1, 5.134543, 3.986612, 1), dim = c(3,3)) # rain, deep soil, top soil 
+b = c(0.08410838,-1.1266902, 1)
+solve(A,b)
+```
+
+Yay!! I have real numbers for DS1. OK, now figuring out how to automate this process. I have three dataframes to pull stuff from: em_coords (end member projected U-space coordinates), dsu (DS U-space coordinates), dsq (stream hydrograph data).
+
+```{r Fractional Contributions}
+# OK very sleep deprived and may make some of this kinda lazy
+## First, I will assign variables for EM1U1, EM1U2, EM2U1, EM2U2, EM3U1, EM3U2 (which are rain, deep, and top)
+r1 <- em_coords[1,1] # ex. Rain 1 in U1
+r2 <- em_coords[1,2]
+d1 <- em_coords[2,1]
+d2 <- em_coords[2,2]
+t1 <- em_coords[3,1]
+t2 <- em_coords[3,2]
+
+datalist = data.frame()
+A <- array(c(r1, r2, 1, d1, d2, 1, t1, t2, 1), dim = c(3,3))
+
+for (i in 1:nrow(dsu)) {
+  b <- c(dsu$Dim.1[i],dsu$Dim.2[i],1)
+  data <- array(solve(A,b), dim = c(1,3)) 
+  datafr = data.frame(data)
+  datalist <- rbind(datalist, datafr)
+}
+
+```
+
+```{r Flowpaths}
+# The only thing that is different is multiply b by the Q at DS[i]
+r1 <- em_coords[1,1]
+r2 <- em_coords[1,2]
+d1 <- em_coords[2,1]
+d2 <- em_coords[2,2]
+t1 <- em_coords[3,1]
+t2 <- em_coords[3,2]
+
+flowpath = data.frame()
+A <- array(c(r1, r2, 1, d1, d2, 1, t1, t2, 1), dim = c(3,3))
+
+for (i in 1:nrow(dsu)) {
+  b <- c(dsu$Dim.1[i]*dsq$Q[i],dsu$Dim.2[i]*dsq$Q[i],1*dsq$Q[i])
+  data <- array(solve(A,b), dim = c(1,3)) 
+  datafr = data.frame(data)
+  flowpath <- rbind(flowpath, datafr)
+}
+```
+
+```{r Concatenating}
+# First let's concatenate the fractions and fractional discharges with DS Time and Q
+datalist <- datalist %>% as.data.frame() %>% dplyr::rename(f_rain = X1,
+                           f_deep = X2,
+                           f_top  = X3)
+
+flowpath <- flowpath %>% as.data.frame() %>%
+  dplyr::rename(Q_rain = X1,
+    Q_deep = X2,
+    Q_top  = X3)
+
+dsemma <- cbind(dsq,datalist,flowpath)
+```
+
+FINALLY! Let's export datalist (fractions) and dsemma (contributions) and make the figures.
+
+```{r Exporting as csv}
+write.csv(dsemma,"dsemma.csv")
+```
+
+
+```{r}
+#~~~~~~~~~~~~~~ Discharge ~~~~~~~~~~~~~~#
+DownQ <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/lia_Q.csv")
+DownQ$Date <- as.POSIXct(DownQ$Date, format ="%m/%d/%y %H:%M")
+
+ggplot() +
+  geom_area(data = DownQ, aes(x = Date, y = Q, colour="Total Q")) +
+  geom_area(data = dsemma, aes(x = SamplingDate, y = Q_deep, fill="Q_deep")) +
+  geom_area(data = dsemma, aes(x = SamplingDate, y = Q_top, fill= "Q_top")) +
+  geom_area(data = dsemma, aes(x = SamplingDate, y = Q_rain, fill= "Q_rain")) +
+  scale_color_manual("",
+                     breaks = c("Total Q", "Q_rain", "Q_deep","Q_top"),
+                     values = c("Total Q"="black", "Q_rain" = "blue", "Q_deep" = "red","Q_top" = "green")) +
+  scale_fill_manual("",
+                    breaks = c("Total Q", "Q_rain", "Q_deep","Q_top"),
+                    values = c("Total Q"="black", "Q_rain" = "blue", "Q_deep" = "red","Q_top" = "green")) +
+  theme_bw()
+```
+
+```{r Time series without filling}
+#~~~~~~~~~~~~~~ Discharge ~~~~~~~~~~~~~~#
+ggplot() +
+  geom_area(data = DownQ, aes(x = Date, y = Q, colour="Total Q")) +
+  geom_area(data = dsemma, aes(x = SamplingDate, y = Q_deep, colour="Q_deep", fill = "red")) +
+  geom_area(data = dsemma, aes(x = SamplingDate, y = Q_top, colour= "Q_top", fill = "green")) +
+  geom_area(data = dsemma, aes(x = SamplingDate, y = Q_rain, colour= "Q_rain", fill = "blue")) +
+  scale_color_manual("",
+                     breaks = c("Total Q", "Q_rain", "Q_deep","Q_top"),
+                     values = c("Total Q"="black", "Q_rain" = "blue", "Q_deep" = "red","Q_top" = "green")) +
+  scale_fill_manual("",
+                    breaks = c("Total Q", "Q_rain", "Q_deep","Q_top"),
+                    values = c("Total Q"="black", "Q_rain" = "blue", "Q_deep" = "red","Q_top" = "green")) +
+  theme_bw()
+```
+```{r Time series of fractions over time}
+library(lubridate)
+library(scales)
+
+lims <- as.POSIXct(strptime(c("2018-07-06 12:00", "2018-07-09 00:00"), 
+                   format = "%Y-%m-%d %H:%M"))
+
+# https://stackoverflow.com/questions/59229001/how-to-set-breaks-with-exact-interval-in-scale-x-datetime-in-ggplot
+t_breaks = seq(from = ymd_hms('2018-07-06 12:00:00'), to = ymd_hms('2018-07-09 00:00:00'), by = '12 hours')
+
+frac <- ggplot(data = dsemma, aes(x = SamplingDate)) +
+    annotate(geom = "rect", alpha = .1, ymin = 0, ymax = 1, xmin = as.POSIXct('07/06/18 12:00',format ="%m/%d/%y %H:%M"),
+    xmax = as.POSIXct('07/09/18 00:00', format ="%m/%d/%y %H:%M")) +
+  geom_line(aes(y = f_rain, colour = "Rain")) +
+  geom_line(aes(y = f_deep, colour = "Deep Soil")) +
+  geom_line(aes(y = f_top, colour = "Shallow Soil")) +
+  geom_point(aes(y = f_rain, colour = "Rain")) +
+  geom_point(aes(y = f_deep, colour = "Deep Soil")) +
+  geom_point(aes(y = f_top, colour = "Shallow Soil")) +
+  scale_color_manual("",
+                     breaks = c("Rain", "Deep Soil","Shallow Soil"),
+                     values = c("Rain" = "blue", "Deep Soil" = "red","Shallow Soil" = "green")) +
+  theme_few() +
+  scale_x_datetime(labels = date_format("%m/%d\n%H:%M", tz = "GMT"), 
+                        limits = lims, 
+                   breaks = t_breaks, # date_breaks("12 hour"), # as.POSIXct(c("2018-07-07 00:00","2018-07-07 12:00", "2018-07-08 00:00", "2018-07-08 12:00", "2018-07-09 00:00")), 
+                        expand = c(0, 0)) +
+  theme(axis.text = element_text(size = 24, family = 'sans'),
+        axis.text.x = element_text(size = 24, family = 'sans', colour = 'black'),
+        axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+        axis.title.y = element_text(size = 24, family = 'sans'),
+        axis.title.x = element_text(size = 24, family = 'sans'),
+        legend.text = element_text(size = 24, family = 'sans'),
+        legend.title = element_blank(),
+        plot.margin = unit(c(2,1,1,1), "cm")) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Date", y = "Contribution")
+
+# limits=c(as.POSIXct("2018-07-06 12:00:00",tz="UTC"), as.POSIXct("2018-07-09 00:00:00",tz="UTC")) in scale_x_datetime
+
+ggsave(file = "frac.pdf", plot = frac, width = 10.25, height = 6, dpi = 600)
+```
+
+```{r}
+rain <- read.csv("https://raw.githubusercontent.com/wdnguyen/CR/master/DownstreamMiller.csv")
+rain$Date <- as.POSIXct(rain$Date, format ="%m/%d/%y %H:%M")
+
+# Rain
+rain_plot <- ggplot(data = rain[1:581,], aes(x = Date, y = Rain)) + 
+  geom_bar(stat = "identity", 
+           position = 'dodge',
+           # fill = "black", #rgb(187, 8, 38, maxColorValue = 255), 
+           color = "black") + #rgb(187, 8, 38, maxColorValue = 255)) + 
+  theme_bw() + 
+  # ggtitle("48-Hour Data Slam") +
+  theme(#text=element_text(size=18),
+        panel.border = element_blank(), 
+        panel.grid.major.x = element_blank(), 
+        panel.grid.major.y = element_blank(),# element_line(colour = "black"), 
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"), 
+        axis.text.x = element_blank(), #(angle = 45, hjust = 1, color="white"),
+        axis.line.x = element_blank(), #(color = "white"),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_text(colour="black", size=18),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(colour="black", size=18)) + 
+  labs(y = "Precip\n(mm)") +
+  # scale_y_reverse() + 
+  scale_y_continuous(trans = "reverse")
+```
+
 
