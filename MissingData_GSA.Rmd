@@ -763,4 +763,29 @@ rain_plot <- ggplot(data = rain[1:581,], aes(x = Date, y = Rain)) +
   scale_y_continuous(trans = "reverse")
 ```
 
+```{r PHREEQC}
+library(reshape2)
+library(tidyverse)
+library(viridis)
+
+phr <- read.csv("phreeqc_1.csv")
+names(phr)[1] <- "ID"
+phr_melt <- melt(data = phr, id.vars = "ID")
+
+phreeqc <- ggplot(data = phr_melt, aes(x = variable, y = value, fill = ID)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_viridis(discrete = T, option = "E") +
+  ggtitle("Possible Phase Mole Transfers from US to DS") +
+  labs(x = "Phase", y = "Phase Mole Transfers (mol)") +
+  theme_bw() +
+  theme(axis.text = element_text(size = 18, color = "black"),
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title = element_text(size = 18, color = "black"),
+        plot.title = element_text(size = 18),
+        legend.text = element_text(size = 18),
+        legend.title = element_text(size = 18)) +
+  scale_y_continuous(labels = function(x) format(x, scientific = TRUE))
+
+ggsave(file = "phreeqc.pdf", plot = phreeqc, width = 7, height = 4.5, dpi = 600)
+```
 

@@ -1,0 +1,512 @@
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+stable_plot <- ggplot(stable, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, nrow = 2) +
+labs(y=expression("(‰ VSMOW)")) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans', face = "bold"),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans', face = "bold"),
+axis.title.x = element_blank(),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+bases_plot <- ggplot(bases, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+nutrients_plot <- ggplot(nutrients, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+redox_plot <- ggplot(redox, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+redox2_plot <- ggplot(redox2, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(log(ppb)))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc)) +
+scale_y_log10()
+ggsave(file = "conservative_2018_2.pdf", plot = conservative_plot, width = 5.21, height = 3.73, dpi = 600)
+ggsave(file = "stable_2018_2.pdf", plot = stable_plot, width = 5.21, height = 3.73, dpi = 600)
+ggsave(file = "bases_plot_2018_2.pdf", plot = bases_plot, width = 17, height = 4, dpi = 600)
+ggsave(file = "nutrients_plot_2018_2.pdf", plot = nutrients_plot, width = 26, height = 4, dpi = 600)
+ggsave(file = "redox_plot_2018_2.pdf", plot = redox_plot, width = 10.25, height = 4, dpi = 600)
+ggsave(file = "redox2_plot_2018_2.pdf", plot = redox2_plot, width = 10.5, height = 4, dpi = 600)
+df <- df[format(df$SamplingDate, '%Y') != "2019", ] # comment this out if you want 2019 data included
+# df <- df[format(df$Fe)]
+df <- dplyr::mutate_if(tibble::as_tibble(df),
+is.character,
+stringr::str_replace_all, pattern = "Upstream", replacement = "US")
+df <- dplyr::mutate_if(tibble::as_tibble(df),
+is.character,
+stringr::str_replace_all, pattern = "Downstream", replacement = "DS")
+# Setting in certain order
+df$Site <- factor(df$Site,
+levels=c("US","Soil","Spring","Rain","DS"))
+# Wrapping some old code in an unused function:
+# .f = function() {}
+conservative <- df %>%
+select(ID, Site, Source, SO4, Cl) %>%
+gather(Species, Concentration, SO4:Cl)
+conservative$Species_f = factor(conservative$Species, levels = c('Cl','SO4'))
+stable <- df %>%
+select(ID, Site, Source, O18, D) %>%
+gather(Species, Concentration, O18:D)
+stable$Species_f = factor(stable$Species, levels = c('O18','D'))
+bases <- df %>%
+select(ID, Site, Source, Na_IC, K_IC, Mg_IC, Ca_IC) %>%
+gather(Species, Concentration, Na_IC:Ca_IC)
+bases$Species_f = factor(bases$Species, levels = c('Na_IC','K_IC','Mg_IC','Ca_IC'))
+nutrients <- df %>%
+select(ID, Site, Source, AlkalinityW, DOC, NO3, NO2, NO3_f, NH3_f) %>%
+gather(Species, Concentration, AlkalinityW:NH3_f)
+nutrients$Species_f = factor(nutrients$Species, levels = c('NO3','NO3_f','NO2','NH3_f','DOC','AlkalinityW'))
+redox <- df %>%
+select(ID, Site, Source, ORP, H2S_f) %>%
+gather(Species, Concentration, ORP:H2S_f)
+redox2 <- df %>%
+select(ID, Site, Source, Fe, Mn) %>%
+gather(Species, Concentration, Fe:Mn)
+.f = function() {
+unbracketed <- df %>%
+select(ID, Site, Source, SPCOND, pH, ORP, AlkalinityW, Fl, NO2, NO3, Na_IC, Mo, Si, P, Cr, Ti, B, Sr, Sr2, Ba, K, As, Na, Mg) %>%
+gather(Species, Concentration, SPCOND:Mg)
+u_production <- df %>%
+select(ID, Site, Source, pH, Fl, Cr, Ti, B, Na) %>%
+gather(Species, Concentration, pH:Na)
+u_removal <- df %>%
+select(ID, Site, Source, ORP, NO2, NO3, Mo, Si, P, As) %>%
+gather(Species, Concentration, ORP:As)
+norprorem <- df %>%
+select(ID, Site, Source, SPCOND, AlkalinityW, Na_IC, Ca_IC, Sr, Sr2, Ba, K, Mg) %>%
+gather(Species, Concentration, SPCOND:Mg)
+bracketed <- df %>%
+select(ID, Site, Source, NH3_f, H2S_f, NO3_f, O2, Cl, SO4, K_IC, Mg_IC, Mn, Fe, Ni, Zn, O18, D) %>%
+gather(Species, Concentration, NH3_f:D)
+neutral <- df %>%
+select(ID, Site, Source, DOC, TDN, TotalNField, Li, Ca_IC, Cd, Sb, Pb, U, Al, S, Ca, Co, Cu) %>%
+gather(Species, Concentration, DOC:Cu)
+}
+################
+theme_ex = labs(y=expression(Concentration~(ppm))) +
+theme(axis.title.x = element_blank()) +
+theme_bw()
+conservative_plot <- ggplot(conservative, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, nrow = 2) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans', face = "bold"),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans', face = "bold"),
+axis.title.x = element_blank(),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+stable_plot <- ggplot(stable, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, nrow = 2) +
+labs(y=expression("(‰ VSMOW)")) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans', face = "bold"),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans', face = "bold"),
+axis.title.x = element_blank(),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+bases_plot <- ggplot(bases, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+nutrients_plot <- ggplot(nutrients, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+redox_plot <- ggplot(redox, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+redox2_plot <- ggplot(redox2, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(log(ppb)))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc)) +
+scale_y_log10()
+ggsave(file = "conservative_2018_2.pdf", plot = conservative_plot, width = 5.21, height = 5, dpi = 600)
+ggsave(file = "stable_2018_2.pdf", plot = stable_plot, width = 5.21, height = 5, dpi = 600)
+ggsave(file = "bases_plot_2018_2.pdf", plot = bases_plot, width = 17, height = 4, dpi = 600)
+ggsave(file = "nutrients_plot_2018_2.pdf", plot = nutrients_plot, width = 26, height = 4, dpi = 600)
+ggsave(file = "redox_plot_2018_2.pdf", plot = redox_plot, width = 10.25, height = 4, dpi = 600)
+ggsave(file = "redox2_plot_2018_2.pdf", plot = redox2_plot, width = 10.5, height = 4, dpi = 600)
+df <- df[format(df$SamplingDate, '%Y') != "2019", ] # comment this out if you want 2019 data included
+# df <- df[format(df$Fe)]
+df <- dplyr::mutate_if(tibble::as_tibble(df),
+is.character,
+stringr::str_replace_all, pattern = "Upstream", replacement = "US")
+df <- dplyr::mutate_if(tibble::as_tibble(df),
+is.character,
+stringr::str_replace_all, pattern = "Downstream", replacement = "DS")
+# Setting in certain order
+df$Site <- factor(df$Site,
+levels=c("US","Soil","Spring","Rain","DS"))
+# Wrapping some old code in an unused function:
+# .f = function() {}
+conservative <- df %>%
+select(ID, Site, Source, SO4, Cl) %>%
+gather(Species, Concentration, SO4:Cl)
+conservative$Species_f = factor(conservative$Species, levels = c('Cl','SO4'))
+stable <- df %>%
+select(ID, Site, Source, O18, D) %>%
+gather(Species, Concentration, O18:D)
+stable$Species_f = factor(stable$Species, levels = c('O18','D'))
+bases <- df %>%
+select(ID, Site, Source, Na_IC, K_IC, Mg_IC, Ca_IC) %>%
+gather(Species, Concentration, Na_IC:Ca_IC)
+bases$Species_f = factor(bases$Species, levels = c('Na_IC','K_IC','Mg_IC','Ca_IC'))
+nutrients <- df %>%
+select(ID, Site, Source, AlkalinityW, DOC, NO3, NO2, NO3_f, NH3_f) %>%
+gather(Species, Concentration, AlkalinityW:NH3_f)
+nutrients$Species_f = factor(nutrients$Species, levels = c('NO3','NO3_f','NO2','NH3_f','DOC','AlkalinityW'))
+redox <- df %>%
+select(ID, Site, Source, ORP, H2S_f) %>%
+gather(Species, Concentration, ORP:H2S_f)
+redox2 <- df %>%
+select(ID, Site, Source, Fe, Mn) %>%
+gather(Species, Concentration, Fe:Mn)
+.f = function() {
+unbracketed <- df %>%
+select(ID, Site, Source, SPCOND, pH, ORP, AlkalinityW, Fl, NO2, NO3, Na_IC, Mo, Si, P, Cr, Ti, B, Sr, Sr2, Ba, K, As, Na, Mg) %>%
+gather(Species, Concentration, SPCOND:Mg)
+u_production <- df %>%
+select(ID, Site, Source, pH, Fl, Cr, Ti, B, Na) %>%
+gather(Species, Concentration, pH:Na)
+u_removal <- df %>%
+select(ID, Site, Source, ORP, NO2, NO3, Mo, Si, P, As) %>%
+gather(Species, Concentration, ORP:As)
+norprorem <- df %>%
+select(ID, Site, Source, SPCOND, AlkalinityW, Na_IC, Ca_IC, Sr, Sr2, Ba, K, Mg) %>%
+gather(Species, Concentration, SPCOND:Mg)
+bracketed <- df %>%
+select(ID, Site, Source, NH3_f, H2S_f, NO3_f, O2, Cl, SO4, K_IC, Mg_IC, Mn, Fe, Ni, Zn, O18, D) %>%
+gather(Species, Concentration, NH3_f:D)
+neutral <- df %>%
+select(ID, Site, Source, DOC, TDN, TotalNField, Li, Ca_IC, Cd, Sb, Pb, U, Al, S, Ca, Co, Cu) %>%
+gather(Species, Concentration, DOC:Cu)
+}
+################
+theme_ex = labs(y=expression(Concentration~(ppm))) +
+theme(axis.title.x = element_blank()) +
+theme_bw()
+conservative_plot <- ggplot(conservative, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, nrow = 2) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans', face = "bold"),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 90, hjust = 1, vjust = 0.5),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans', face = "bold"),
+axis.title.x = element_blank(),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+stable_plot <- ggplot(stable, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, nrow = 2) +
+labs(y=expression("(‰ VSMOW)")) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans', face = "bold"),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 90, hjust = 1, vjust = 0.5),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans', face = "bold"),
+axis.title.x = element_blank(),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+bases_plot <- ggplot(bases, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+nutrients_plot <- ggplot(nutrients, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+redox_plot <- ggplot(redox, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+redox2_plot <- ggplot(redox2, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(log(ppb)))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc)) +
+scale_y_log10()
+ggsave(file = "conservative_2018_2.pdf", plot = conservative_plot, width = 5.21, height = 5, dpi = 600)
+ggsave(file = "stable_2018_2.pdf", plot = stable_plot, width = 5.21, height = 5, dpi = 600)
+ggsave(file = "bases_plot_2018_2.pdf", plot = bases_plot, width = 17, height = 4, dpi = 600)
+ggsave(file = "nutrients_plot_2018_2.pdf", plot = nutrients_plot, width = 26, height = 4, dpi = 600)
+ggsave(file = "redox_plot_2018_2.pdf", plot = redox_plot, width = 10.25, height = 4, dpi = 600)
+ggsave(file = "redox2_plot_2018_2.pdf", plot = redox2_plot, width = 10.5, height = 4, dpi = 600)
+df <- df[format(df$SamplingDate, '%Y') != "2019", ] # comment this out if you want 2019 data included
+# df <- df[format(df$Fe)]
+df <- dplyr::mutate_if(tibble::as_tibble(df),
+is.character,
+stringr::str_replace_all, pattern = "Upstream", replacement = "US")
+df <- dplyr::mutate_if(tibble::as_tibble(df),
+is.character,
+stringr::str_replace_all, pattern = "Downstream", replacement = "DS")
+# Setting in certain order
+df$Site <- factor(df$Site,
+levels=c("US","Soil","Spring","Rain","DS"))
+# Wrapping some old code in an unused function:
+# .f = function() {}
+conservative <- df %>%
+select(ID, Site, Source, SO4, Cl) %>%
+gather(Species, Concentration, SO4:Cl)
+conservative$Species_f = factor(conservative$Species, levels = c('Cl','SO4'))
+stable <- df %>%
+select(ID, Site, Source, O18, D) %>%
+gather(Species, Concentration, O18:D)
+stable$Species_f = factor(stable$Species, levels = c('O18','D'))
+bases <- df %>%
+select(ID, Site, Source, Na_IC, K_IC, Mg_IC, Ca_IC) %>%
+gather(Species, Concentration, Na_IC:Ca_IC)
+bases$Species_f = factor(bases$Species, levels = c('Na_IC','K_IC','Mg_IC','Ca_IC'))
+nutrients <- df %>%
+select(ID, Site, Source, AlkalinityW, DOC, NO3, NO2, NO3_f, NH3_f) %>%
+gather(Species, Concentration, AlkalinityW:NH3_f)
+nutrients$Species_f = factor(nutrients$Species, levels = c('NO3','NO3_f','NO2','NH3_f','DOC','AlkalinityW'))
+redox <- df %>%
+select(ID, Site, Source, ORP, H2S_f) %>%
+gather(Species, Concentration, ORP:H2S_f)
+redox2 <- df %>%
+select(ID, Site, Source, Fe, Mn) %>%
+gather(Species, Concentration, Fe:Mn)
+.f = function() {
+unbracketed <- df %>%
+select(ID, Site, Source, SPCOND, pH, ORP, AlkalinityW, Fl, NO2, NO3, Na_IC, Mo, Si, P, Cr, Ti, B, Sr, Sr2, Ba, K, As, Na, Mg) %>%
+gather(Species, Concentration, SPCOND:Mg)
+u_production <- df %>%
+select(ID, Site, Source, pH, Fl, Cr, Ti, B, Na) %>%
+gather(Species, Concentration, pH:Na)
+u_removal <- df %>%
+select(ID, Site, Source, ORP, NO2, NO3, Mo, Si, P, As) %>%
+gather(Species, Concentration, ORP:As)
+norprorem <- df %>%
+select(ID, Site, Source, SPCOND, AlkalinityW, Na_IC, Ca_IC, Sr, Sr2, Ba, K, Mg) %>%
+gather(Species, Concentration, SPCOND:Mg)
+bracketed <- df %>%
+select(ID, Site, Source, NH3_f, H2S_f, NO3_f, O2, Cl, SO4, K_IC, Mg_IC, Mn, Fe, Ni, Zn, O18, D) %>%
+gather(Species, Concentration, NH3_f:D)
+neutral <- df %>%
+select(ID, Site, Source, DOC, TDN, TotalNField, Li, Ca_IC, Cd, Sb, Pb, U, Al, S, Ca, Co, Cu) %>%
+gather(Species, Concentration, DOC:Cu)
+}
+################
+theme_ex = labs(y=expression(Concentration~(ppm))) +
+theme(axis.title.x = element_blank()) +
+theme_bw()
+conservative_plot <- ggplot(conservative, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, scales = "free_y", nrow = 2) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans', face = "bold"),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 90, hjust = 1, vjust = 0.5),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans', face = "bold"),
+axis.title.x = element_blank(),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+stable_plot <- ggplot(stable, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, scales = "free_y", nrow = 2) +
+labs(y=expression("(‰ VSMOW)")) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans', face = "bold"),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 90, hjust = 1, vjust = 0.5),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans', face = "bold"),
+axis.title.x = element_blank(),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+bases_plot <- ggplot(bases, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+nutrients_plot <- ggplot(nutrients, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species_f, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+redox_plot <- ggplot(redox, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(ppm))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc))
+redox2_plot <- ggplot(redox2, aes(x=Site, y=Concentration, fill=Site)) +
+geom_boxplot() +
+facet_wrap(~Species, scales = "free", nrow = 1) +
+labs(y=expression(Concentration~(log(ppb)))) +
+theme_bw() +
+theme(strip.text = element_text(size = 24, family = 'sans'),
+axis.text = element_text(size = 24, family = 'sans'),
+axis.text.x = element_text(size = 18, family = 'sans', colour = 'black', angle = 45),
+axis.text.y = element_text(size = 24, family = 'sans', colour = 'black'),
+axis.title.y = element_text(size = 24, family = 'sans'),
+legend.text = element_text(size = 24, family = 'sans'),
+legend.title = element_text(size = 24, family = 'sans')) +
+scale_fill_manual(values = c(usc, soilc, springc, rainc, dsc)) +
+scale_y_log10()
+ggsave(file = "conservative_2018_2.pdf", plot = conservative_plot, width = 5.21, height = 5, dpi = 600)
+ggsave(file = "stable_2018_2.pdf", plot = stable_plot, width = 5.21, height = 5, dpi = 600)
+ggsave(file = "bases_plot_2018_2.pdf", plot = bases_plot, width = 17, height = 4, dpi = 600)
+ggsave(file = "nutrients_plot_2018_2.pdf", plot = nutrients_plot, width = 26, height = 4, dpi = 600)
+ggsave(file = "redox_plot_2018_2.pdf", plot = redox_plot, width = 10.25, height = 4, dpi = 600)
+ggsave(file = "redox2_plot_2018_2.pdf", plot = redox2_plot, width = 10.5, height = 4, dpi = 600)
