@@ -11,4 +11,14 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Premable
+
 Hello! If you've found this page, you must've gotten here from the QR code on my GSA poster. Thanks for checking it out! Here is where I'll leave some extra information that I couldn't fit on my poster.
+
+# Attributions
+
+Figure 1 was adapted from:
+Tracey Saxby, IAN Image Library [(ian.umces.edu/imagelibrary/)](ian.umces.edu/imagelibrary/).
+
+Figure 3 was adapted from:
+Bishop KH, Grip H, O’Neill A. 1990. The origins of acid runoff in a hillslope during storm events. Journal of Hydrology 116: 35–61. DOI: 10.1016/0022-1694(90)90114-D
