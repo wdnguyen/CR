@@ -9,7 +9,7 @@ output:
 
 
 
-# Premable
+# Preamble
 
 Hello! If you've found this page, you must've gotten here from the QR code on my GSA poster. Thanks for checking it out! Here is where I'll leave some extra information that I couldn't fit on my poster. Feel free to contact me at wdnguyen(@)utexas.edu!
 
